@@ -1,0 +1,54 @@
+﻿@model EduCare.Models.Department
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="fw-bold mt-3 mb-3"><a href="@Url.Action("Index","Departments")" class="back-btn"><i class="fa fa-arrow-left mr-5"></i>Delete Department</a></h4>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="box box-primary small-card">
+        <div class="box-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <dl class="dl-horizontal">
+                            <dt>
+                                Name
+                            </dt>
+                            <dd>
+                                : @Model.Name
+                            </dd>
+
+                            <dt>
+                                Status
+                            </dt>
+                            <dd>
+                                : @if (Model.Status ?? false)
+                                {
+                                    <span class="label badge-soft-success">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="label badge-soft-danger">InActive</span>
+                                }
+                            </dd>
+
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <input type="submit" value="Delete" class="btn btn-danger" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+

@@ -1,0 +1,107 @@
+﻿@model EduCare.Models.Requests
+@{
+    ViewBag.Title = "Mapcandidate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //System.Data.DataTable getRequest = EduCare.Models.AllProcs.GetRquests(Model.Id);
+    System.Data.DataTable candidateView = EduCare.Models.AllProcs.GetTableData("CandidateView");
+    int? id = ViewBag.Id;
+}
+
+<h4 class="fw-bold mt-3 mb-3"><span class="cursor-pointer" onclick="history.back()"><i class="fa fa-arrow-left mr-5"></i>Map Candidates</span></h4>
+
+<input type="hidden" id="RequestId" name="RequestId" value="" />
+
+<div class="box box-primary">
+    <div class="box-body">
+        <div class="row">
+
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Skill Code
+                        </dt>
+                        <dd>
+                            :
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Title
+                        </dt>
+                        <dd>
+                            :
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Location
+                        </dt>
+                        <dd>
+                            :
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-sm-12">
+                <div class="form-group table-responsive">
+                    <table class="table table-bordered table-condensed table-sm table-striped text-center">
+                        <thead>
+                            <tr>
+                                <th>S.No.</th>
+                                <th>Candidate</th>
+                                <th>Contact No.</th>
+                                <th>Email</th>
+                                <th>Experiance</th>
+                                <th>Allotment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < candidateView.Rows.Count; i++)
+                            {
+                                <tr>
+                                    <td>@(i+1)</td>
+                                    <td>@candidateView.Rows[i]["Name"].ToString()</td>
+                                    <td>@candidateView.Rows[i]["MobileNo"].ToString()</td>
+                                    <td>@candidateView.Rows[i]["Email"].ToString()</td>
+                                    <td>@candidateView.Rows[i]["Experiance"].ToString()</td>
+                                    <td>
+                                        <label class="switch">
+                                            <input type="checkbox" onclick="AllotCandidate('@candidateView.Rows[i]["Id"].ToString(),this')">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function AllotCandidate(candidateId) {
+
+        $.get("/Requests/AddMappedcandidate", { RequestId: @id, CandidateId: candidateId }, function (data) {
+            alert(candidateId);
+
+        });
+
+    }
+</script>

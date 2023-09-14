@@ -1,0 +1,322 @@
+﻿@model EduCare.Models.Requests
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Data.DataTable client = EduCare.Models.AllProcs.GetTableData("Client");
+    System.Data.DataTable contactperson = EduCare.Models.AllProcs.GetTableData("ContactPerson");
+    System.Data.DataTable skill = EduCare.Models.AllProcs.GetTableData("Skill");
+    System.Data.DataTable requestsview = EduCare.Models.AllProcs.GetTableData("RequestsView");
+    System.Data.DataTable designation = EduCare.Models.AllProcs.GetTableData("Designation");
+}
+
+<h4 class="fw-bold mt-3 mb-3"><a href=@Url.Action("Index","Requests") class="back-btn"><i class="fa fa-arrow-left"></i> Edit Request</a></h4>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="box box-primary">
+        <div class="box-body">
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ClientId, htmlAttributes: new { @class = "control-label label-required" })
+                        <select id="ClientId" name="ClientId" class="form-control" required onchange="GetClient()">
+                            @for (int i = 0; i < client.Rows.Count; i++)
+                            {
+                                <option value="@client.Rows[i]["Id"].ToString()">@client.Rows[i]["Name"].ToString()</option>
+                            }
+                        </select>
+                        <script>$('#ClientId').val('@Model.ClientId')</script>
+                        @Html.ValidationMessageFor(model => model.ClientId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Branch</label>
+                        <input type="text" id="ShowBranch" name="ShowBranch" class="form-control" readonly />
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" id="ShowEmail" name="ShowEmail" class="form-control" readonly />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>City</label>
+                        <input type="text" id="ShowCity" name="ShowCity" class="form-control" readonly />
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Website</label>
+                        <input type="text" id="ShowWebsite" name="ShowWebsite" class="form-control" readonly />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ContactPersonId, htmlAttributes: new { @class = "control-label label-required" })
+                        <select id="ContactPersonId" name="ContactPersonId" class="form-control" required onchange="GetContactPersonByClientId()">
+                            @for (int i = 0; i < contactperson.Rows.Count; i++)
+                            {
+                                <option value="@contactperson.Rows[i]["Id"].ToString()">@contactperson.Rows[i]["Name"].ToString()</option>
+                            }
+                        </select>
+                        <script>$('#ContactPersonId').val('@Model.ContactPersonId')</script>
+                        @Html.ValidationMessageFor(model => model.ContactPersonId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Designation</label>
+                        <input type="text" id="Designation" name="Designation" class="form-control" readonly />
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" id="Email" name="Email" class="form-control" readonly />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label class="label-required">Skill Code</label>
+                        <select id="SkillId" name="SkillId" class="form-control" onchange="GetSkillById()" required>
+                            <option value="">Select SkillCode</option>
+                            @for (int i = 0; i < skill.Rows.Count; i++)
+                            {
+                                <option value="@skill.Rows[i]["Id"].ToString()">@skill.Rows[i]["SkillCode"].ToString()</option>
+                            }
+                        </select>
+                        <script>$('#SkillId').val('@Model.SkillId')</script>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Subject</label>
+                        <input type="text" id="ShowSubject" name="ShowSubject" class="form-control" readonly />
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Level</label>
+                        <input type="text" id="ShowLevel" name="ShowLevel" class="form-control" readonly />
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Affiliation</label>
+                        <input type="text" id="ShowAff" name="ShowAff" class="form-control" readonly />
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label label-required" })
+                        <select id="Title" name="Title" class="form-control">
+                            @for (int i = 0; i < designation.Rows.Count; i++)
+                            {
+                                <option value="@designation.Rows[i]["Id"].ToString()">@designation.Rows[i]["Name"].ToString()</option>
+                            }
+                        </select>
+                        <script>$('#Title').val('@Model.Title')</script>
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Vacancies, htmlAttributes: new { @class = "control-label label-required" })
+                        @Html.EditorFor(model => model.Vacancies, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.Vacancies, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Experience, htmlAttributes: new { @class = "control-label label-required" })
+                        @Html.EditorFor(model => model.Experience, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.Experience, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Salary, htmlAttributes: new { @class = "control-label label-required" })
+                        @Html.EditorFor(model => model.Salary, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.Salary, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Jd, htmlAttributes: new { @class = "control-label label-required" })
+                        @Html.EditorFor(model => model.Jd, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.Jd, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label label-required" })
+                        @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.JobSummary, htmlAttributes: new { @class = "control-label label-required" })
+                        @Html.EditorFor(model => model.JobSummary, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.JobSummary, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label class="label-required">Status</label>
+                        <select id="Status" name="Status" class="form-control">
+                            <option value="0">New</option>
+                            <option value="1">In Progress</option>
+                            <option value="2">Won</option>
+                            <option value="3">Lost</option>
+                        </select>
+                        <script>$('#Status').val('@Model.Status')</script>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                </div>
+                <div class="col-sm-2 float-end">
+                    <div class="form-group ">
+                        <a type="button" href="@Url.Action("Index","Requests")" class="btn btn-default" style="margin-left: 80px;"><i class="fa fa-arrow-left"></i> Back</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+}
+
+<script>
+    function GetClient() {
+        var client = $('#ClientId').val();
+        var opts = '';
+        if (client != '') {
+            $.get('/Requests/GetClientbyId', { Id: client }, function (data) {
+                /*alert(data);*/
+                var opts = JSON.parse(data);
+
+                $('#ShowBranch').val(opts[0].Branch);
+                $('#ShowEmail').val(opts[0].Email);
+                $('#ShowCity').val(opts[0].City);
+                $('#ShowWebsite').val(opts[0].Website);
+            });
+
+            $.get('/Requests/GetContactPersonbyClientId', { CId: client }, function (data) {
+                var d = JSON.parse(data);
+                if (d.length > 0) {
+                    opts = '<option value="">Select Contact Person</option>';
+                    for (var i = 0; i < d.length; i++) {
+                        opts += '<option value="' + d[i].Id + '">' + d[i].Name + '</option>';
+                    }
+                }
+                else {
+                    opts = '<option value="">No data found!</option>';
+                }
+                $('#ContactPersonId').html(opts);
+            });
+        }
+        else {
+            $('#ShowBranch').val('');
+            $('#ShowEmail').val('');
+            $('#ShowCity').val('');
+            $('#ShowWebsite').val('');
+            opts = '<option value="">Select Client</option>';
+            $('#ContactPersonId').html(opts);
+        }
+
+    }
+
+    function GetContactPersonByClientId() {
+        var cp = $('#ContactPersonId').val();
+        if (cp != '') {
+            $.get('/Requests/GetContactPersonById', { Id: cp }, function (data) {
+                var d = JSON.parse(data);
+                $('#Designation').val(d[0].Designation);
+                $('#Email').val(d[0].Email);
+            });
+        }
+        else {
+            $('#Designation').val('');
+            $('#Email').val('');
+        }
+    }
+
+    function GetSkillById() {
+
+        var skillcode = $('#SkillId').val();
+
+        if (skillcode != '') {
+
+            $.get('/Requests/GetSkillbyId', { skillId: skillcode }, function (data) {
+                var opts = JSON.parse(data);
+
+                $('#ShowSubject').val(opts[0].Subject);
+                $('#ShowLevel').val(opts[0].Level);
+                $('#ShowAff').val(opts[0].Affiliation);
+
+            });
+        }
+        else {
+            $('#ShowSubject').val('');
+            $('#ShowLevel').val('');
+            $('#ShowAff').val('');
+        }
+    }
+
+
+    $(function () {
+        
+        GetClient();
+        GetSkillById();
+        GetContactPersonByClientId();
+    });
+
+</script>

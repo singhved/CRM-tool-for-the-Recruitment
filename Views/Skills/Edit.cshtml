@@ -1,0 +1,86 @@
+﻿@model EduCare.Models.Skill
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Data.DataTable subject = EduCare.Models.AllProcs.GetSubject();
+    System.Data.DataTable level = EduCare.Models.AllProcs.GetLevel();
+    System.Data.DataTable affiliation = EduCare.Models.AllProcs.GetAffiliation();
+}
+
+<h4 class="fw-bold mt-3 mb-3"><a href=@Url.Action("Index","Skills") class="back-btn"><i class="fa fa-arrow-left"></i> Edit Skill</a></h4>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+
+
+    <div class="box box-primary small-card">
+        <div class="box-body">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SubjectId, htmlAttributes: new { @class = "control-label label-required" })
+                        <select id="SubjectId" name="SubjectId" class="form-control" required>
+                            @for (int i = 0; i < subject.Rows.Count; i++)
+                            {
+                                <option value="@subject.Rows[i]["Id"].ToString()">@subject.Rows[i]["Name"].ToString()</option>
+                            }
+                        </select>
+                        <script>$('#SubjectId').val('@Model.SubjectId')</script>
+                        @Html.ValidationMessageFor(model => model.SubjectId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.LevelId, htmlAttributes: new { @class = "control-label label-required" })
+                        <select id="LevelId" name="LevelId" class="form-control" required >
+                            @for (int i = 0; i < level.Rows.Count; i++)
+                            {
+                                <option value="@level.Rows[i]["Id"].ToString()">@level.Rows[i]["Name"].ToString()</option>
+                            }
+                        </select>
+                        <script>$('#LevelId').val('@Model.LevelId')</script>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AffiliationId, htmlAttributes: new { @class = "control-label label-required" })
+                        <select id="AffiliationId" name="AffiliationId" class="form-control"required>
+                            @for (int i = 0; i < affiliation.Rows.Count; i++)
+                            {
+                                <option value="@affiliation.Rows[i]["Id"].ToString()">@affiliation.Rows[i]["Name"].ToString()</option>
+                            }
+                        </select>
+                        <script>$('#AffiliationId').val('@Model.AffiliationId')</script>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label " })
+                        <select id="Status" name="Status" class="form-control">
+                            <option value="True">Active</option>
+                            <option value="False">Inactive</option>
+                        </select>
+                        <script>$('#Status').val('@Model.Status')</script>
+                        @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

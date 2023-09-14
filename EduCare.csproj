@@ -1,0 +1,523 @@
+﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E9668C12-DE5F-41AF-A9FC-B8798DB37B2C}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EduCare</RootNamespace>
+    <AssemblyName>EduCare</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>44342</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Web.Razor">
+      <HintPath>packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages">
+      <HintPath>packages\Microsoft.AspNet.Webpages.3.2.7\lib\net45\System.Web.Webpages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Deployment">
+      <HintPath>packages\Microsoft.AspNet.Webpages.3.2.7\lib\net45\System.Web.Webpages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Razor">
+      <HintPath>packages\Microsoft.AspNet.Webpages.3.2.7\lib\net45\System.Web.Webpages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Helpers">
+      <HintPath>packages\Microsoft.AspNet.Webpages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure">
+      <HintPath>packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\ad.js" />
+    <Content Include="Assets\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.min.css" />
+    <Content Include="Assets\bower_components\bootstrap-colorpicker\dist\js\bootstrap-colorpicker.min.js" />
+    <Content Include="Assets\bower_components\bootstrap-datepicker\dist\css\bootstrap-datepicker.min.css" />
+    <Content Include="Assets\bower_components\bootstrap-datepicker\dist\js\bootstrap-datepicker.min.js" />
+    <Content Include="Assets\bower_components\bootstrap-daterangepicker\daterangepicker.css" />
+    <Content Include="Assets\bower_components\bootstrap-daterangepicker\daterangepicker.js" />
+    <Content Include="Assets\bower_components\bootstrap\dist\css\bootstrap.min.css" />
+    <Content Include="Assets\bower_components\bootstrap\dist\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Assets\bower_components\bootstrap\dist\js\bootstrap.min.js" />
+    <Content Include="Assets\bower_components\chart.js\Chart.js" />
+    <Content Include="Assets\bower_components\ckeditor\ckeditor.js" />
+    <Content Include="Assets\bower_components\datatables.net-bs\css\dataTables.bootstrap.min.css" />
+    <Content Include="Assets\bower_components\datatables.net-bs\js\dataTables.bootstrap.min.js" />
+    <Content Include="Assets\bower_components\datatables.net\js\jquery.dataTables.min.js" />
+    <Content Include="Assets\bower_components\fastclick\lib\fastclick.js" />
+    <Content Include="Assets\bower_components\Flot\jquery.flot.categories.js" />
+    <Content Include="Assets\bower_components\Flot\jquery.flot.js" />
+    <Content Include="Assets\bower_components\Flot\jquery.flot.pie.js" />
+    <Content Include="Assets\bower_components\Flot\jquery.flot.resize.js" />
+    <Content Include="Assets\bower_components\font-awesome\css\font-awesome.min.css" />
+    <Content Include="Assets\bower_components\font-awesome\fonts\fontawesome-webfont3e6e.svg" />
+    <Content Include="Assets\bower_components\fullcalendar\dist\fullcalendar.min.css" />
+    <Content Include="Assets\bower_components\fullcalendar\dist\fullcalendar.min.js" />
+    <Content Include="Assets\bower_components\fullcalendar\dist\fullcalendar.print.min.css" />
+    <Content Include="Assets\bower_components\Ionicons\css\ionicons.min.css" />
+    <Content Include="Assets\bower_components\Ionicons\fonts\ionicons28b5.svg" />
+    <Content Include="Assets\bower_components\jquery-knob\dist\jquery.knob.min.js" />
+    <Content Include="Assets\bower_components\jquery-knob\js\jquery.knob.js" />
+    <Content Include="Assets\bower_components\jquery-slimscroll\jquery.slimscroll.min.js" />
+    <Content Include="Assets\bower_components\jquery-sparkline\dist\jquery.sparkline.min.js" />
+    <Content Include="Assets\bower_components\jquery-ui\jquery-ui.min.js" />
+    <Content Include="Assets\bower_components\jquery\dist\jquery.min.js" />
+    <Content Include="Assets\bower_components\jvectormap\jquery-jvectormap.css" />
+    <Content Include="Assets\bower_components\moment\min\moment.min.js" />
+    <Content Include="Assets\bower_components\moment\moment.js" />
+    <Content Include="Assets\bower_components\morris.js\morris.css" />
+    <Content Include="Assets\bower_components\morris.js\morris.min.js" />
+    <Content Include="Assets\bower_components\PACE\pace.min.js" />
+    <Content Include="Assets\bower_components\raphael\raphael.min.js" />
+    <Content Include="Assets\bower_components\select2\dist\css\select2.min.css" />
+    <Content Include="Assets\bower_components\select2\dist\js\select2.full.min.js" />
+    <Content Include="Assets\CSS.css" />
+    <Content Include="Assets\DataTable\dataTables.bootstrap4.js" />
+    <Content Include="Assets\datatables\datatables\css\buttons.bootstrap4.css" />
+    <Content Include="Assets\datatables\datatables\css\colReorder.bootstrap4.css" />
+    <Content Include="Assets\datatables\datatables\css\dataTables.bootstrap4.css" />
+    <Content Include="Assets\datatables\datatables\css\rowReorder.bootstrap4.css" />
+    <Content Include="Assets\datatables\datatables\css\scroller.bootstrap4.css" />
+    <Content Include="Assets\datatables\datatables\images\sort_asc.png" />
+    <Content Include="Assets\datatables\datatables\images\sort_asc_disabled.png" />
+    <Content Include="Assets\datatables\datatables\images\sort_both.png" />
+    <Content Include="Assets\datatables\datatables\images\sort_desc.png" />
+    <Content Include="Assets\datatables\datatables\images\sort_desc_disabled.png" />
+    <Content Include="Assets\datatables\datatables\js\buttons.bootstrap4.js" />
+    <Content Include="Assets\datatables\datatables\js\buttons.colVis.js" />
+    <Content Include="Assets\datatables\datatables\js\buttons.html5.js" />
+    <Content Include="Assets\datatables\datatables\js\buttons.print.js" />
+    <Content Include="Assets\datatables\datatables\js\buttons.print.min.js" />
+    <Content Include="Assets\datatables\datatables\js\dataTables.bootstrap4.js" />
+    <Content Include="Assets\datatables\datatables\js\dataTables.buttons.js" />
+    <Content Include="Assets\datatables\datatables\js\dataTables.colReorder.js" />
+    <Content Include="Assets\datatables\datatables\js\dataTables.responsive.js" />
+    <Content Include="Assets\datatables\datatables\js\dataTables.rowReorder.js" />
+    <Content Include="Assets\datatables\datatables\js\dataTables.scroller.js" />
+    <Content Include="Assets\datatables\datatables\js\jquery.dataTables.js" />
+    <Content Include="Assets\datatables\datatables\js\pdfmake.js" />
+    <Content Include="Assets\datatables\datatables\js\vfs_fonts.js" />
+    <Content Include="Assets\dist\css\AdminLTE.min.css" />
+    <Content Include="Assets\dist\css\skins\_all-skins.min.css" />
+    <Content Include="Assets\dist\img\credit\american-express.png" />
+    <Content Include="Assets\dist\img\credit\mastercard.png" />
+    <Content Include="Assets\dist\img\credit\paypal2.png" />
+    <Content Include="Assets\dist\img\credit\visa.png" />
+    <Content Include="Assets\dist\img\default-50x50.gif" />
+    <Content Include="Assets\dist\img\LOGO.jpg" />
+    <Content Include="Assets\dist\img\photo1.png" />
+    <Content Include="Assets\dist\img\photo2.png" />
+    <Content Include="Assets\dist\img\photo3.jpg" />
+    <Content Include="Assets\dist\img\photo4.jpg" />
+    <Content Include="Assets\dist\img\user1-128x128.jpg" />
+    <Content Include="Assets\dist\img\user2-160x160.jpg" />
+    <Content Include="Assets\dist\img\user3-128x128.jpg" />
+    <Content Include="Assets\dist\img\user4-128x128.jpg" />
+    <Content Include="Assets\dist\img\user5-128x128.jpg" />
+    <Content Include="Assets\dist\img\user6-128x128.jpg" />
+    <Content Include="Assets\dist\img\user7-128x128.jpg" />
+    <Content Include="Assets\dist\img\user8-128x128.jpg" />
+    <Content Include="Assets\dist\js\adminlte.min.js" />
+    <Content Include="Assets\dist\js\demo.js" />
+    <Content Include="Assets\dist\js\pages\dashboard.js" />
+    <Content Include="Assets\dist\js\pages\dashboard2.js" />
+    <Content Include="Assets\DataTable\jquery.dataTables.js" />
+    <Content Include="Assets\LogIn\core.css" />
+    <Content Include="Assets\LogIn\demo.css" />
+    <Content Include="Assets\LogIn\theme-default.css" />
+    <Content Include="Assets\LogIn\page-auth.css" />
+    <Content Include="Assets\LogIn\bootstrap.js" />
+    <Content Include="Assets\LogIn\jquery.js" />
+    <Content Include="Assets\Pdf img\pdf-img.png" />
+    <Content Include="Assets\plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.all.min.js" />
+    <Content Include="Assets\plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.min.css" />
+    <Content Include="Assets\plugins\iCheck\all.css" />
+    <Content Include="Assets\plugins\iCheck\flat\aero%402x.png" />
+    <Content Include="Assets\plugins\iCheck\flat\aero.png" />
+    <Content Include="Assets\plugins\iCheck\flat\blue%402x.png" />
+    <Content Include="Assets\plugins\iCheck\flat\blue.css" />
+    <Content Include="Assets\plugins\iCheck\flat\blue.png" />
+    <Content Include="Assets\plugins\iCheck\flat\flat%402x.png" />
+    <Content Include="Assets\plugins\iCheck\flat\flat.png" />
+    <Content Include="Assets\plugins\iCheck\flat\green%402x.png" />
+    <Content Include="Assets\plugins\iCheck\flat\green.png" />
+    <Content Include="Assets\plugins\iCheck\flat\grey%402x.png" />
+    <Content Include="Assets\plugins\iCheck\flat\grey.png" />
+    <Content Include="Assets\plugins\iCheck\flat\orange%402x.png" />
+    <Content Include="Assets\plugins\iCheck\flat\orange.png" />
+    <Content Include="Assets\plugins\iCheck\flat\pink%402x.png" />
+    <Content Include="Assets\plugins\iCheck\flat\pink.png" />
+    <Content Include="Assets\plugins\iCheck\flat\purple%402x.png" />
+    <Content Include="Assets\plugins\iCheck\flat\purple.png" />
+    <Content Include="Assets\plugins\iCheck\flat\red%402x.png" />
+    <Content Include="Assets\plugins\iCheck\flat\red.png" />
+    <Content Include="Assets\plugins\iCheck\flat\yellow%402x.png" />
+    <Content Include="Assets\plugins\iCheck\flat\yellow.png" />
+    <Content Include="Assets\plugins\iCheck\flat\_all.css" />
+    <Content Include="Assets\plugins\iCheck\futurico\futurico%402x.png" />
+    <Content Include="Assets\plugins\iCheck\futurico\futurico.css" />
+    <Content Include="Assets\plugins\iCheck\futurico\futurico.png" />
+    <Content Include="Assets\plugins\iCheck\icheck.min.js" />
+    <Content Include="Assets\plugins\iCheck\line\line%402x.png" />
+    <Content Include="Assets\plugins\iCheck\line\line.png" />
+    <Content Include="Assets\plugins\iCheck\line\_all.css" />
+    <Content Include="Assets\plugins\iCheck\minimal\aero%402x.png" />
+    <Content Include="Assets\plugins\iCheck\minimal\aero.png" />
+    <Content Include="Assets\plugins\iCheck\minimal\blue%402x.png" />
+    <Content Include="Assets\plugins\iCheck\minimal\blue.png" />
+    <Content Include="Assets\plugins\iCheck\minimal\green%402x.png" />
+    <Content Include="Assets\plugins\iCheck\minimal\green.png" />
+    <Content Include="Assets\plugins\iCheck\minimal\grey%402x.png" />
+    <Content Include="Assets\plugins\iCheck\minimal\grey.png" />
+    <Content Include="Assets\plugins\iCheck\minimal\orange%402x.png" />
+    <Content Include="Assets\plugins\iCheck\minimal\orange.png" />
+    <Content Include="Assets\plugins\iCheck\minimal\pink%402x.png" />
+    <Content Include="Assets\plugins\iCheck\minimal\pink.png" />
+    <Content Include="Assets\plugins\iCheck\minimal\purple%402x.png" />
+    <Content Include="Assets\plugins\iCheck\minimal\purple.png" />
+    <Content Include="Assets\plugins\iCheck\minimal\red%402x.png" />
+    <Content Include="Assets\plugins\iCheck\minimal\red.png" />
+    <Content Include="Assets\plugins\iCheck\minimal\yellow%402x.png" />
+    <Content Include="Assets\plugins\iCheck\minimal\yellow.png" />
+    <Content Include="Assets\plugins\iCheck\minimal\_all.css" />
+    <Content Include="Assets\plugins\iCheck\polaris\polaris%402x.png" />
+    <Content Include="Assets\plugins\iCheck\polaris\polaris.css" />
+    <Content Include="Assets\plugins\iCheck\polaris\polaris.png" />
+    <Content Include="Assets\plugins\iCheck\square\aero%402x.png" />
+    <Content Include="Assets\plugins\iCheck\square\aero.png" />
+    <Content Include="Assets\plugins\iCheck\square\blue%402x.png" />
+    <Content Include="Assets\plugins\iCheck\square\blue.css" />
+    <Content Include="Assets\plugins\iCheck\square\blue.png" />
+    <Content Include="Assets\plugins\iCheck\square\green%402x.png" />
+    <Content Include="Assets\plugins\iCheck\square\green.png" />
+    <Content Include="Assets\plugins\iCheck\square\grey%402x.png" />
+    <Content Include="Assets\plugins\iCheck\square\grey.png" />
+    <Content Include="Assets\plugins\iCheck\square\orange%402x.png" />
+    <Content Include="Assets\plugins\iCheck\square\orange.png" />
+    <Content Include="Assets\plugins\iCheck\square\pink%402x.png" />
+    <Content Include="Assets\plugins\iCheck\square\pink.png" />
+    <Content Include="Assets\plugins\iCheck\square\purple%402x.png" />
+    <Content Include="Assets\plugins\iCheck\square\purple.png" />
+    <Content Include="Assets\plugins\iCheck\square\red%402x.png" />
+    <Content Include="Assets\plugins\iCheck\square\red.png" />
+    <Content Include="Assets\plugins\iCheck\square\square%402x.png" />
+    <Content Include="Assets\plugins\iCheck\square\square.png" />
+    <Content Include="Assets\plugins\iCheck\square\yellow%402x.png" />
+    <Content Include="Assets\plugins\iCheck\square\yellow.png" />
+    <Content Include="Assets\plugins\iCheck\square\_all.css" />
+    <Content Include="Assets\plugins\input-mask\jquery.inputmask.date.extensions.js" />
+    <Content Include="Assets\plugins\input-mask\jquery.inputmask.extensions.js" />
+    <Content Include="Assets\plugins\input-mask\jquery.inputmask.js" />
+    <Content Include="Assets\plugins\jvectormap\jquery-jvectormap-1.2.2.min.js" />
+    <Content Include="Assets\plugins\jvectormap\jquery-jvectormap-world-mill-en.js" />
+    <Content Include="Assets\plugins\pace\pace.min.css" />
+    <Content Include="Assets\plugins\seiyria-bootstrap-slider\bootstrap-slider.min.js" />
+    <Content Include="Assets\plugins\seiyria-bootstrap-slider\css\bootstrap-slider.min.css" />
+    <Content Include="Assets\plugins\timepicker\bootstrap-timepicker.min.css" />
+    <Content Include="Assets\plugins\timepicker\bootstrap-timepicker.min.js" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Global.asax" />
+    <Content Include="obj\Debug\EduCare.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\EduCare.dll" />
+    <Content Include="obj\Debug\EduCare.pdb" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AffiliationsController.cs" />
+    <Compile Include="Controllers\CandidatesController.cs" />
+    <Compile Include="Controllers\CandidateStatusController.cs" />
+    <Compile Include="Controllers\ClientsController.cs" />
+    <Compile Include="Controllers\CountriesController.cs" />
+    <Compile Include="Controllers\DegreesController.cs" />
+    <Compile Include="Controllers\DepartmentsController.cs" />
+    <Compile Include="Controllers\DesignationsController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LevelsController.cs" />
+    <Compile Include="Controllers\LogInController.cs" />
+    <Compile Include="Controllers\MappedCandidatesController.cs" />
+    <Compile Include="Controllers\MenusController.cs" />
+    <Compile Include="Controllers\NewRequestController.cs" />
+    <Compile Include="Controllers\PaymentTermsController.cs" />
+    <Compile Include="Controllers\RequestsController.cs" />
+    <Compile Include="Controllers\RequestStatusController.cs" />
+    <Compile Include="Controllers\SkillsController.cs" />
+    <Compile Include="Controllers\StatesController.cs" />
+    <Compile Include="Controllers\SubjectsController.cs" />
+    <Compile Include="Controllers\UniversitiesController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Affiliation.cs" />
+    <Compile Include="Models\AllProcs.cs" />
+    <Compile Include="Models\Candidate.cs" />
+    <Compile Include="Models\CandidateStatus.cs" />
+    <Compile Include="Models\Client.cs" />
+    <Compile Include="Models\Cookies.cs" />
+    <Compile Include="Models\Country.cs" />
+    <Compile Include="Models\Degree.cs" />
+    <Compile Include="Models\Department.cs" />
+    <Compile Include="Models\Designation.cs" />
+    <Compile Include="Models\EducareContext.cs" />
+    <Compile Include="Models\EduSecurity.cs" />
+    <Compile Include="Models\Level.cs" />
+    <Compile Include="Models\MappedCandidates.cs" />
+    <Compile Include="Models\MyFunctions.cs" />
+    <Compile Include="Models\PaymentTerms.cs" />
+    <Compile Include="Models\Requests.cs" />
+    <Compile Include="Models\RequestStatus.cs" />
+    <Compile Include="Models\sendEmail.cs" />
+    <Compile Include="Models\Skill.cs" />
+    <Compile Include="Models\State.cs" />
+    <Compile Include="Models\Subject.cs" />
+    <Compile Include="Models\University.cs" />
+    <Compile Include="Models\Users.cs" />
+    <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\web.config" />
+    <Content Include="Assets\bower_components\bootstrap\dist\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Assets\bower_components\bootstrap\dist\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Assets\bower_components\bootstrap\dist\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Assets\bower_components\bootstrap\dist\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Assets\bower_components\bootstrap\dist\fonts\glyphicons-halflings-regulard41d.eot" />
+    <Content Include="Assets\bower_components\font-awesome\fonts\fontawesome-webfont3e6e.eot" />
+    <Content Include="Assets\bower_components\font-awesome\fonts\fontawesome-webfont3e6e.ttf" />
+    <Content Include="Assets\bower_components\font-awesome\fonts\fontawesome-webfont3e6e.woff" />
+    <Content Include="Assets\bower_components\font-awesome\fonts\fontawesome-webfont3e6e.woff2" />
+    <Content Include="Assets\bower_components\font-awesome\fonts\fontawesome-webfontd41d.eot" />
+    <Content Include="Assets\bower_components\Ionicons\fonts\ionicons28b5.eot" />
+    <Content Include="Assets\bower_components\Ionicons\fonts\ionicons28b5.ttf" />
+    <Content Include="Assets\bower_components\Ionicons\fonts\ionicons28b5.woff" />
+    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <Content Include="obj\Debug\EduCare.csproj.AssemblyReference.cache" />
+    <Content Include="obj\Debug\EduCare.csproj.CopyComplete" />
+    <Content Include="obj\Debug\EduCare.csproj.CoreCompileInputs.cache" />
+    <None Include="packages.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Menus\Top.cshtml" />
+    <Content Include="Views\Menus\Side.cshtml" />
+    <Content Include="Views\Departments\Create.cshtml" />
+    <Content Include="Views\Departments\Delete.cshtml" />
+    <Content Include="Views\Departments\Details.cshtml" />
+    <Content Include="Views\Departments\Edit.cshtml" />
+    <Content Include="Views\Departments\Index.cshtml" />
+    <Content Include="Views\Designations\Create.cshtml" />
+    <Content Include="Views\Designations\Delete.cshtml" />
+    <Content Include="Views\Designations\Details.cshtml" />
+    <Content Include="Views\Designations\Edit.cshtml" />
+    <Content Include="Views\Designations\Index.cshtml" />
+    <Content Include="Views\Subjects\Create.cshtml" />
+    <Content Include="Views\Subjects\Delete.cshtml" />
+    <Content Include="Views\Subjects\Details.cshtml" />
+    <Content Include="Views\Subjects\Edit.cshtml" />
+    <Content Include="Views\Subjects\Index.cshtml" />
+    <Content Include="Views\Levels\Create.cshtml" />
+    <Content Include="Views\Levels\Delete.cshtml" />
+    <Content Include="Views\Levels\Details.cshtml" />
+    <Content Include="Views\Levels\Edit.cshtml" />
+    <Content Include="Views\Levels\Index.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\Delete.cshtml" />
+    <Content Include="Views\Users\Details.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Affiliations\Create.cshtml" />
+    <Content Include="Views\Affiliations\Delete.cshtml" />
+    <Content Include="Views\Affiliations\Details.cshtml" />
+    <Content Include="Views\Affiliations\Edit.cshtml" />
+    <Content Include="Views\Affiliations\Index.cshtml" />
+    <Content Include="Views\Countries\Create.cshtml" />
+    <Content Include="Views\Countries\Delete.cshtml" />
+    <Content Include="Views\Countries\Details.cshtml" />
+    <Content Include="Views\Countries\Edit.cshtml" />
+    <Content Include="Views\Countries\Index.cshtml" />
+    <Content Include="Views\Universities\Create.cshtml" />
+    <Content Include="Views\Universities\Delete.cshtml" />
+    <Content Include="Views\Universities\Details.cshtml" />
+    <Content Include="Views\Universities\Edit.cshtml" />
+    <Content Include="Views\Universities\Index.cshtml" />
+    <Content Include="Views\States\Create.cshtml" />
+    <Content Include="Views\States\Delete.cshtml" />
+    <Content Include="Views\States\Details.cshtml" />
+    <Content Include="Views\States\Edit.cshtml" />
+    <Content Include="Views\States\Index.cshtml" />
+    <Content Include="Views\Skills\Create.cshtml" />
+    <Content Include="Views\Skills\Delete.cshtml" />
+    <Content Include="Views\Skills\Details.cshtml" />
+    <Content Include="Views\Skills\Edit.cshtml" />
+    <Content Include="Views\Skills\Index.cshtml" />
+    <Content Include="Views\Degrees\Create.cshtml" />
+    <Content Include="Views\Degrees\Delete.cshtml" />
+    <Content Include="Views\Degrees\Details.cshtml" />
+    <Content Include="Views\Degrees\Edit.cshtml" />
+    <Content Include="Views\Degrees\Index.cshtml" />
+    <Content Include="Views\LogIn\ChangePassword.cshtml" />
+    <Content Include="Views\LogIn\ForgotPwd.cshtml" />
+    <Content Include="Views\LogIn\Index.cshtml" />
+    <Content Include="Views\Shared\LogIn.cshtml" />
+    <Content Include="Views\PaymentTerms\Create.cshtml" />
+    <Content Include="Views\PaymentTerms\Delete.cshtml" />
+    <Content Include="Views\PaymentTerms\Details.cshtml" />
+    <Content Include="Views\PaymentTerms\Edit.cshtml" />
+    <Content Include="Views\PaymentTerms\Index.cshtml" />
+    <Content Include="Views\Clients\Create.cshtml" />
+    <Content Include="Views\Clients\Delete.cshtml" />
+    <Content Include="Views\Clients\Details.cshtml" />
+    <Content Include="Views\Clients\Edit.cshtml" />
+    <Content Include="Views\Clients\Index.cshtml" />
+    <Content Include="Views\Candidates\Create.cshtml" />
+    <Content Include="Views\Candidates\Delete.cshtml" />
+    <Content Include="Views\Candidates\Details.cshtml" />
+    <Content Include="Views\Candidates\Edit.cshtml" />
+    <Content Include="Views\Candidates\Index.cshtml" />
+    <Content Include="Views\Requests\Create.cshtml" />
+    <Content Include="Views\Requests\Delete.cshtml" />
+    <Content Include="Views\Requests\Details.cshtml" />
+    <Content Include="Views\Requests\Edit.cshtml" />
+    <Content Include="Views\Requests\Index.cshtml" />
+    <Content Include="Views\RequestStatus\Create.cshtml" />
+    <Content Include="Views\RequestStatus\Delete.cshtml" />
+    <Content Include="Views\RequestStatus\Details.cshtml" />
+    <Content Include="Views\RequestStatus\Edit.cshtml" />
+    <Content Include="Views\RequestStatus\Index.cshtml" />
+    <Content Include="Views\CandidateStatus\Create.cshtml" />
+    <Content Include="Views\CandidateStatus\Delete.cshtml" />
+    <Content Include="Views\CandidateStatus\Details.cshtml" />
+    <Content Include="Views\CandidateStatus\Edit.cshtml" />
+    <Content Include="Views\CandidateStatus\Index.cshtml" />
+    <Content Include="Views\Home\TermsnConditions.cshtml" />
+    <Content Include="Views\Users\ChangePassword.cshtml" />
+    <Content Include="Views\Home\Email.cshtml" />
+    <Content Include="Views\Requests\AllotReruiter.cshtml" />
+    <Content Include="Views\NewRequest\Index.cshtml" />
+    <Content Include="Views\Requests\Mapcandidate.cshtml" />
+    <Content Include="Views\MappedCandidates\Create.cshtml" />
+    <Content Include="Views\MappedCandidates\Delete.cshtml" />
+    <Content Include="Views\MappedCandidates\Details.cshtml" />
+    <Content Include="Views\MappedCandidates\Edit.cshtml" />
+    <Content Include="Views\MappedCandidates\Index.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="obj\Debug\TempPE\" />
+    <Folder Include="UploadedFiles\JD\" />
+    <Folder Include="UploadedFiles\Resumes\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>53373</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://localhost:44342/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

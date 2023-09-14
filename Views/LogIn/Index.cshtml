@@ -1,0 +1,97 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/LogIn.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        <!-- Logo -->
+        <div class="app-brand justify-content-center">
+            <a href="index-2.html" class="app-brand-link gap-2">
+                <span class="app-brand-logo demo">
+
+                    @*Logo*@
+
+                </span>
+                <span class="app-brand-text demo text-body fw-bolder">EDUCARE</span>
+            </a>
+        </div>
+        <!-- /Logo -->
+        <h4 class="mb-4 text-center mb-5">Welcome to Educare!</h4>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email or Username</label>
+            <input type="text" class="form-control" id="Username" name="Username" placeholder="Enter your email or username" autofocus>
+        </div>
+        <div class="mb-3 form-password-toggle">
+            <div class="d-flex justify-content-between">
+                <label class="form-label" for="password">Password</label>
+                <a href="@Url.Action("ForgotPwd","LogIn")">
+                    <small>Forgot Password?</small>
+                </a>
+            </div>
+            <div class="input-group input-group-merge">
+                <input type="password" id="Password" name="Password" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="Password" />
+                <span id="pass_eye" class="input-group-text cursor-pointer" onclick="hideshow_pass()"><i class="fa fa-eye"></i></span>
+            </div>
+        </div>
+        <div class="mb-3">
+            <button id="Signinbtn" type="button" onclick="LogIn()" class="btn btn-primary d-grid w-100 mt-4" style="line-height: 30px !important;">LOG IN</button>
+        </div>
+        <p id="LoginMsg" style="color:red;"></p>
+    </div>
+</div>
+
+<script>
+    function hideshow_pass() {
+
+        var type = document.getElementById('Password').type;
+        if (type == 'text') {
+            $('#Password').attr('type', 'password');
+            $('#pass_eye').html('<i class="fa fa-eye"></i>');
+        }
+        else {
+            $('#Password').attr('type', 'text');
+            $('#pass_eye').html('<i class="fa fa-eye-slash"></i>');
+        }
+    }
+    function LogIn() {
+        document.getElementById("Signinbtn").disabled = true;
+        $('#Signinbtn').html('<span class="spinner-border" style="margin-left: 40%;"></span>');
+        $('#LoginMsg').html('');
+        var username = $('#Username').val();
+        var password = $('#Password').val();
+
+        if (username == '') {
+            $('#LoginMsg').html('Enter Username');
+            document.getElementById("Signinbtn").disabled = false;
+            $('#Signinbtn').html('LOG IN');
+        }
+        else if (password == '') {
+            $('#LoginMsg').html('Enter Password');
+            document.getElementById("Signinbtn").disabled = false;
+            $('#Signinbtn').html('LOG IN');
+        }
+        else {
+            $.get('/Users/Authenticate/', { UserName: username, Password: password }, function (data) {
+                if (data == 0) {
+                    $('#LoginMsg').html('Wrong Credentials!');
+                    document.getElementById("Signinbtn").disabled = false;
+                    $('#Signinbtn').html('LOG IN');
+                }
+                else {
+                    location = "@Url.Action("Index","Home")";
+                }
+
+            });
+        }
+
+    }
+</script>
+
+
+
+
+
+

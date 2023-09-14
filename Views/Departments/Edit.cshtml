@@ -1,0 +1,49 @@
+﻿@model EduCare.Models.Department
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="fw-bold mt-3 mb-3"><a href="@Url.Action("Index","Departments")" class="back-btn"><i class="fa fa-arrow-left mr-5"></i>Edit Departments</a></h4>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="box box-primary small-card">
+        <div class="box-body ">
+            <div class="row">
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label label-required" })
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
+                        <select id="Status" name="Status" class="form-control">
+                            <option value="True">Active</option>
+                            <option value="False">InActive</option>
+                        </select>
+                        <script>$('#Status').val('@Model.Status')</script>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-sm-2">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+

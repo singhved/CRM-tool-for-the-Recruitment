@@ -1,0 +1,204 @@
+﻿
+@{
+    ViewBag.Title = "AllotReruiter";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Data.DataTable users = EduCare.Models.AllProcs.FilterUsers(2, 0);
+
+}
+
+<h4 class="fw-bold mt-3 mb-3"><a href=@Url.Action("Index","Requests") class="back-btn"><i class="fa fa-arrow-left"></i> Allot Recruiter</a></h4>
+
+<div class="box box-primary">
+    <div class="box-body">
+        <h4>Client Details</h4>
+        <hr />
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Client
+                        </dt>
+
+                        <dd>
+                            : @Model.Client
+                        </dd>
+
+                        <dt>
+                            Branch
+                        </dt>
+
+                        <dd>
+                            : @Model.Branch
+                        </dd>
+
+                        <dt>
+                            City
+                        </dt>
+
+                        <dd>
+                            : @Model.City
+                        </dd>
+
+                        <dt>
+                            Email
+                        </dt>
+
+                        <dd>
+                            : @Model.Email
+                        </dd>
+
+                        <dt>
+                            Website
+                        </dt>
+
+                        <dd>
+                            : @Model.Website
+                        </dd>
+
+                    </dl>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Contact Person
+                        </dt>
+
+                        <dd>
+                            : @Model.ContactPerson
+                        </dd>
+                        <dt>
+                            Designation
+                        </dt>
+
+                        <dd>
+                            : @Model.CPDesignation
+                        </dd>
+
+                        <dt>
+                            Email
+                        </dt>
+
+                        <dd>
+                            : @Model.CPEmail
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <h4>Request Details</h4>
+        <hr />
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Title
+                        </dt>
+                        <dd>
+                            : @Model.TitleName
+                        </dd>
+                        <dt>
+                            No Of Vacancies
+                        </dt>
+                        <dd>
+                            : @Model.Vacancies
+                        </dd>
+                        <dt>
+                            Skill Code
+                        </dt>
+                        <dd>
+                            : @Model.SkillCode
+                        </dd>
+                        <dt>
+                            Subject
+                        </dt>
+                        <dd>
+                            : @Model.Subject
+                        </dd>
+                        <dt>
+                            Level
+                        </dt>
+                        <dd>
+                            : @Model.Level
+                        </dd>
+                        <dt>
+                            Affiliation
+                        </dt>
+                        <dd>
+                            : @Model.Affiliation
+                        </dd>
+
+                    </dl>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Experiance
+                        </dt>
+                        <dd>
+                            : @Model.Experience
+                        </dd>
+                        <dt>
+                            Salary
+                        </dt>
+                        <dd>
+                            : @Model.Salary/Rs.
+                        </dd>
+                        <dt>
+                            JD
+                        </dt>
+                        <dd>
+                            : <a href="~/UploadedFiles/JD/@Model.Jd"><img src="~/Assets/Pdf img/pdf-img.png" />...</a>
+
+                        </dd>
+                        <dt>
+                            Location
+                        </dt>
+                        <dd>
+                            : @Model.Location
+                        </dd>
+                        <dt>
+                            Job Summary
+                        </dt>
+                        <dd>
+                            : @Model.JobSummary
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 float-end">
+                <div class="form-group ">
+                    <a type="button" href="@Url.Action("Index","Requests")" class="btn btn-default" style="margin-left: 80px;"><i class="fa fa-arrow-left"></i> Back</a>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <select id="Name" name="Name" class="form-control">
+                        <option value="0">Select Recruiter</option>
+                        @for (int i = 0; i < users.Rows.Count; i++)
+                        {
+                            <option value="@users.Rows[i]["Id"].ToString()">@users.Rows[i]["Name"].ToString()</option>
+                        }
+                    </select>
+                    @*<script>$('#').val()</script>*@
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <a href="/Requests/Index" type="button" class="btn btn-success">Allot</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

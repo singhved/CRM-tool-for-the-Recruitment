@@ -1,0 +1,53 @@
+﻿@model EduCare.Models.Affiliation
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="fw-bold mt-3 mb-3"><a href=@Url.Action("Index","Affiliations") class="back-btn"><i class="fa fa-arrow-left"></i>Affiliation Details</a></h4>
+
+<div class="box box-primary small-card">
+    <div class="box-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </dt>
+
+                        <dd>
+                            : @Html.DisplayFor(model => model.Name)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.AffiliationCode)
+                        </dt>
+
+                        <dd style="text-transform:uppercase;">
+                            : @Html.DisplayFor(model => model.AffiliationCode)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Status)
+                        </dt>
+
+                        <dd>
+                            : @if (Model.Status ?? false)
+                            {
+                                <span class="label badge-soft-success">Active</span>
+                            }
+                            else
+                            {
+                                <span class="label badge-soft-danger">InActive</span>
+                            }
+                        </dd>
+
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,71 @@
+﻿@model EduCare.Models.Skill
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Data.DataTable subject = EduCare.Models.AllProcs.GetSubject();
+    System.Data.DataTable level = EduCare.Models.AllProcs.GetLevel();
+    System.Data.DataTable affiliation = EduCare.Models.AllProcs.GetAffiliation();
+}
+
+<h4 class="fw-bold mt-3 mb-3"><a href=@Url.Action("Index","Skills") class="back-btn"><i class="fa fa-arrow-left"></i> Create Skill</a></h4>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+    <div class="box box-primary small-card">
+        <div class="box-body">
+
+            <div class="row">
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="label-required">Subject</label>
+                        <select id="SubjectId" name="SubjectId" class="form-control" required>
+                            @for (int i = 0; i < subject.Rows.Count; i++)
+                            {
+                                <option value="@subject.Rows[i]["Id"].ToString()">@subject.Rows[i]["Name"].ToString()</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="label-required">Level</label>
+                        <select id="LevelId" name="LevelId" class="form-control" required>
+                            @for (int i = 0; i < level.Rows.Count; i++)
+                            {
+                                <option value="@level.Rows[i]["Id"].ToString()">@level.Rows[i]["Name"].ToString()</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="label-required">Affiliation</label>
+                        <select id="AffiliationId" name="AffiliationId" class="form-control" required>
+                            @for (int i = 0; i < affiliation.Rows.Count; i++)
+                            {
+                                <option value="@affiliation.Rows[i]["Id"].ToString()">@affiliation.Rows[i]["Name"].ToString()</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

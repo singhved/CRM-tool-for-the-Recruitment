@@ -1,0 +1,171 @@
+﻿@model EduCare.Models.Users
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Data.DataTable dept = EduCare.Models.AllProcs.GetDepartments();
+    System.Data.DataTable designation = EduCare.Models.AllProcs.GetDesignations();
+}
+
+<h4 class="fw-bold mt-3 mb-3"><a href=@Url.Action("Index","Users") class="back-btn"><i class="fa fa-arrow-left"></i> Create Users</a></h4>
+
+<form method="post" action="/Users/Create" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="box box-primary">
+        <div class="box-body">
+            <div class="row">
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label label-required" })
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Name", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label label-required" })
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ContactNo, htmlAttributes: new { @class = "control-label label-required" })
+                        @Html.EditorFor(model => model.ContactNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Contact No.", @required = "required", @maxlength = "15" } })
+                        @Html.ValidationMessageFor(model => model.ContactNo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.WhatsappNo, htmlAttributes: new { @class = "control-label label-required" })
+                        @Html.EditorFor(model => model.WhatsappNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Whatsapp No.", @required = "required", @maxlength = "15" } })
+                        @Html.ValidationMessageFor(model => model.WhatsappNo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DateOfJoining, htmlAttributes: new { @class = "control-label label-required" })
+                        @Html.EditorFor(model => model.DateOfJoining, new { htmlAttributes = new { @class = "form-control", @required = "required", @Type = "Date" } })
+                        @Html.ValidationMessageFor(model => model.DateOfJoining, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmpCode, htmlAttributes: new { @class = "control-label label-required" })
+                        @Html.EditorFor(model => model.EmpCode, new { htmlAttributes = new { @class = "form-control", @placeholder = "Employee Code", @required = "required", @maxlength = "10" } })
+                        @Html.ValidationMessageFor(model => model.EmpCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DepartmentId, htmlAttributes: new { @class = "control-label label-required" })
+                        <select id="DepartmentId" name="DepartmentId" class="form-control" required>
+                            @for (int i = 0; i < dept.Rows.Count; i++)
+                            {
+                                <option value="@dept.Rows[i]["Id"].ToString()">@dept.Rows[i]["Name"].ToString()</option>
+                            }
+                        </select>
+                        @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DesignationId, htmlAttributes: new { @class = "control-label label-required" })
+                        <select id="DesignationId" name="DesignationId" class="form-control">
+                            @for (int i = 0; i < designation.Rows.Count; i++)
+                            {
+                                <option value="@designation.Rows[i]["Id"].ToString()">@designation.Rows[i]["Name"].ToString()</option>
+                            }
+                        </select>
+                        @Html.ValidationMessageFor(model => model.DesignationId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ProfilePicture, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.ProfilePicture, new { htmlAttributes = new { @class = "form-control", @placeholder = "Name", @type = "file" } })
+                        @Html.ValidationMessageFor(model => model.ProfilePicture, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label label-required" })
+                        <textarea class="form-control" id="Address" name="Address" placeholder="Address"></textarea>
+                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label label-required" })
+                        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Name", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="label-required">Password</label>
+                        <div class="input-group">
+                            <input type="password" id="Password" name="Password" class="form-control">
+                            <span class="input-group-addon" id="pass_eye" name="pass_eye" onclick="hideshow_pass()" style="cursor:pointer;"><i class="fa fa-eye"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label label-required" })
+                        <select id="Type" name="Type" class="form-control">
+                            <option value="0">Admin</option>
+                            <option value="1">Sub-Admin</option>
+                            <option value="2">User</option>
+                        </select>
+                        @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Division, htmlAttributes: new { @class = "control-label label-required" })
+                        <select id="Division" name="Division" class="form-control">
+                            <option value="0">Operational</option>
+                            <option value="1">Sales</option>
+                            <option value="2">Others</option>
+                        </select>
+                        @Html.ValidationMessageFor(model => model.Division, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+<script>
+    function hideshow_pass() {
+        var type = document.getElementById('Password').type;
+        if (type == 'text') {
+            $('#Password').attr('type', 'password');
+            $('#pass_eye').html('<i class="fa fa-eye"></i>');
+        }
+        else {
+            $('#Password').attr('type', 'text');
+            $('#pass_eye').html('<i class="fa fa-eye-slash"></i>');
+        }
+    }
+</script>

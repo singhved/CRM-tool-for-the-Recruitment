@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //System.Data.DataTable requeststatus = EduCare.Models.AllProcs.GetTableData("RequestStatus");
+    System.Data.DataTable requeststatusView = EduCare.Models.AllProcs.GetTableData("RequestStatusView");
+    var s = TempData["Msg"];
+    if (s == null)
+    {
+        s = 0;
+    }
+}
+<div class="msg-alert">
+    @if (s.ToString() == "2")
+    {
+        <div class="alert alert-warning alert-dismissible" style="background-color: #e5bb79!important">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true" style="color: white; opacity: 1; font-size: 25px;">×</button>
+            Data Updated!
+        </div>
+    }
+    else if (s.ToString() == "3")
+    {
+        <div class="alert alert-danger alert-dismissible" style="background-color: #cd6f64!important;">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true" style="color: white; opacity: 1; font-size: 25px;">×</button>
+            Data Deleted!
+        </div>
+    }
+    else if (s.ToString() == "1")
+    {
+        <div class="alert alert-success alert-dismissible" style="background-color: #4da97f!important">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true" style="color: white; opacity: 1; font-size: 25px;">×</button>
+            Data Saved!
+        </div>
+    }
+</div>
+
+<h3 class="fw-bold" style="margin-top:0;">Request Status</h3>
+
+<div class="box box-primary">
+    <div class="box-body">
+
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <a type="button" href="@Url.Action("Create","RequestStatus")" class="btn btn-default">Add Status</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group table-responsive">
+                    <table class="table table-condensed table-striped text-center text-nowrap myDataTable">
+                        <thead>
+                            <tr>
+                                <th>S.No.</th>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Category
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @for (int i = 0; i < requeststatusView.Rows.Count; i++)
+                            {
+                                int id = Convert.ToInt32(requeststatusView.Rows[i]["Id"].ToString());
+                                <tr>
+
+                                    <td>@(i+1)</td>
+                                    <td>
+                                        @requeststatusView.Rows[i]["Name"].ToString()
+                                    </td>
+                                    <td>
+                                        @requeststatusView.Rows[i]["CategoryName"].ToString()
+                                    </td>
+                                    <td>
+                                        @requeststatusView.Rows[i]["Status"].ToString()
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Edit", "RequestStatus", new { id = id})"><i class="fa fa-edit bg-warning"></i></a>
+                                        <a href="@Url.Action("Details", "RequestStatus", new { id = id})"><i class="fa fa-eye bg-success"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

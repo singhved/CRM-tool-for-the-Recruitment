@@ -1,0 +1,165 @@
+﻿@model EduCare.Models.UsersView
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="fw-bold mt-3 mb-3"><a href=@Url.Action("Index","Users") class="back-btn"><i class="fa fa-arrow-left"></i> Delete User  </a></h4>
+
+@using (Html.BeginForm())
+{
+
+    @Html.AntiForgeryToken()
+
+    <div class="box box-primary">
+        <div class="box-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </dt>
+
+                            <dd>
+                                : @Html.DisplayFor(model => model.Name)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Email)
+                            </dt>
+
+                            <dd>
+                                : @Html.DisplayFor(model => model.Email)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.ContactNo)
+                            </dt>
+
+                            <dd>
+                                : @Html.DisplayFor(model => model.ContactNo)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.WhatsappNo)
+                            </dt>
+
+                            <dd>
+                                : @Html.DisplayFor(model => model.WhatsappNo)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.DateOfJoining)
+                            </dt>
+
+                            <dd>
+                                : @Html.DisplayFor(model => model.DateOfJoining)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.EmpCode)
+                            </dt>
+
+                            <dd>
+                                : @Html.DisplayFor(model => model.EmpCode)
+                            </dd>
+
+                        </dl>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Type)
+                            </dt>
+
+                            <dd>
+                                : @Html.DisplayFor(model => model.TypeName)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Division)
+                            </dt>
+
+                            <dd>
+                                : @Html.DisplayFor(model => model.DivisionName)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Department)
+                            </dt>
+
+                            <dd>
+                                : @Html.DisplayFor(model => model.Department)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Designation)
+                            </dt>
+
+                            <dd>
+                                : @Html.DisplayFor(model => model.Designation)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.ProfilePicture)
+                            </dt>
+
+                            <dd>
+                                : <img src="~/Uploaded Files/@Model.ProfilePicture" style="width: 55px!important; height: 50px!important;" />
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Address)
+                            </dt>
+
+                            <dd>
+                                : @Html.DisplayFor(model => model.Address)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.UserName)
+                            </dt>
+
+                            <dd>
+                                : @Html.DisplayFor(model => model.UserName)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Password)
+                            </dt>
+
+                            <dd>
+                                : @Html.DisplayFor(model => model.Password)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Status)
+                            </dt>
+
+                            <dd>
+                                : @if (Model.Status ?? false)
+                                {
+
+
+                                    <span class="label badge-soft-success">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="label badge-soft-danger">InActive</span>
+                                }
+
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+            </div>
+        </div>
+    </div>
+}

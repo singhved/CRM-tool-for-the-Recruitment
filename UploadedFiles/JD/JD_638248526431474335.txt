@@ -1,0 +1,1888 @@
+USE [WorkSpace]
+GO
+/****** Object:  Table [dbo].[Client]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Client](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](500) NULL,
+	[Code] [nvarchar](50) NULL,
+	[Address] [nvarchar](max) NULL,
+	[Pincode] [nvarchar](20) NULL,
+	[CountryId] [int] NULL,
+	[GSTNo] [nvarchar](50) NULL,
+	[Remarks] [nvarchar](max) NULL,
+	[Status] [bit] NULL,
+	[CDate] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ClientContacts]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ClientContacts](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](200) NULL,
+	[Mobile] [nvarchar](50) NULL,
+	[Email] [nvarchar](500) NULL,
+	[AltMobile] [nvarchar](50) NULL,
+	[Designation] [nvarchar](100) NULL,
+	[ClientId] [int] NULL,
+	[Status] [bit] NULL,
+	[CDate] [datetime] NULL,
+	[Deleted] [bit] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Users]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Users](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](500) NULL,
+	[EmpCode] [nvarchar](500) NULL,
+	[Mobile] [nvarchar](50) NULL,
+	[Email] [nvarchar](500) NULL,
+	[Username] [nvarchar](500) NULL,
+	[Password] [nvarchar](500) NULL,
+	[Type] [int] NULL,
+	[Status] [bit] NULL,
+	[EntryDate] [datetime] NULL,
+	[DesignationId] [int] NULL,
+	[DepartmentId] [int] NULL,
+	[Division] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[RFQ]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[RFQ](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[ProjectName] [nvarchar](200) NULL,
+	[ProjectCode] [nvarchar](20) NULL,
+	[ClientId] [int] NULL,
+	[PMId] [int] NULL,
+	[Complexity] [int] NULL,
+	[Status] [int] NULL,
+	[Uid] [int] NULL,
+	[CDate] [datetime] NULL,
+	[CTime] [nvarchar](20) NULL,
+	[Remarks] [nvarchar](max) NULL,
+	[Date] [datetime] NULL,
+	[Time] [nvarchar](50) NULL,
+	[ApprovalDate] [datetime] NULL,
+	[ApprovalTime] [nvarchar](50) NULL,
+	[CommitmentDate] [datetime] NULL,
+	[CurrencyId] [int] NULL,
+	[APSIId] [nvarchar](20) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Project]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Project](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[RFQID] [int] NULL,
+	[Remarks] [nvarchar](max) NULL,
+	[Uid] [int] NULL,
+	[CDate] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  View [dbo].[ProjectDetails]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[ProjectDetails]
+as
+Select p.Id,p.RFQID,p.Remarks,rfq.ProjectName,rfq.ProjectCode,rfq.ClientId,cl.Name as 'ClientName',cl.Code as 'ClientCode',rfq.PMId,
+cc.Name as 'ProjectManager'
+,p.Uid,u.Name as 'CreatedBy',p.CDate,CONVERT(varchar,p.CDate,106) as 'CreationDate' from Project p
+left join Users u on p.Uid=u.Id
+left join RFQ rfq on p.RFQID=rfq.Id
+left join Client cl on rfq.ClientId=cl.Id
+left join ClientContacts cc on rfq.PMId=cc.Id
+GO
+/****** Object:  Table [dbo].[Country]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Country](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](500) NULL,
+	[CountryCode] [nvarchar](10) NULL,
+	[Status] [bit] NULL,
+	[EntryDate] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  View [dbo].[ClientView]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE View [dbo].[ClientView]
+as
+Select c.Id,c.Name,c.Code,c.Address,c.Pincode,c.CountryId,co.Name as 'Country',c.GSTNo,c.Remarks,case when c.Status=1 then 'Active' else 'Inactive' end as 'Status',c.CDate,CONVERT(varchar,c.CDate,106) as 'CreationDate' from Client c
+left join Country co on c.CountryId=co.Id
+GO
+/****** Object:  View [dbo].[ActiveClient]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE View [dbo].[ActiveClient]
+as
+Select c.Id,c.Name,c.Code,c.Address,c.Pincode,c.CountryId,co.Name as 'Country',c.GSTNo,c.Remarks,case when c.Status=1 then 'Active' else 'Inactive' end as 'Status',c.CDate,CONVERT(varchar,c.CDate,106) as 'CreationDate' from Client c
+left join Country co on c.CountryId=co.Id
+where c.Status=1
+GO
+/****** Object:  View [dbo].[InactiveClient]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE View [dbo].[InactiveClient]
+as
+Select c.Id,c.Name,c.Code,c.Address,c.Pincode,c.CountryId,co.Name as 'Country',c.GSTNo,c.Remarks,case when c.Status=1 then 'Active' else 'Inactive' end as 'Status',c.CDate,CONVERT(varchar,c.CDate,106) as 'CreationDate' from Client c
+left join Country co on c.CountryId=co.Id
+where c.Status=0
+GO
+/****** Object:  Table [dbo].[Designation]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Designation](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](200) NULL,
+	[Status] [bit] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  View [dbo].[DesignationView]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create View [dbo].[DesignationView]
+as
+Select Id,Name,Case when Status=1 then 'Active' else 'Inactive' end as Status From Designation
+GO
+/****** Object:  Table [dbo].[Vendor]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Vendor](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](500) NULL,
+	[Code] [nvarchar](200) NULL,
+	[Address] [nvarchar](max) NULL,
+	[Pincode] [nvarchar](20) NULL,
+	[CountryId] [int] NULL,
+	[GSTNo] [nvarchar](50) NULL,
+	[Remarks] [nvarchar](max) NULL,
+	[Status] [bit] NULL,
+	[CDate] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  View [dbo].[VendorView]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[VendorView]
+AS
+Select v.Id,v.Name,v.Code,v.Address,v.Pincode,v.CountryId,c.Name as 'Country',v.GSTNo,v.Remarks,
+CASE WHEN v.Status=1 THEN 'Active' ELSE 'Inactive' END AS 'Status',v.CDate, CONVERT(varchar,v.CDate,106) as 'CreationDate'
+FROM Vendor v
+LEFT JOIN Country c on v.CountryId=c.Id
+GO
+/****** Object:  View [dbo].[ActiveVendor]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[ActiveVendor]
+AS
+Select v.Id,v.Name,v.Code,v.Address,v.Pincode,v.CountryId,c.Name as 'Country',v.GSTNo,v.Remarks,
+CASE WHEN v.Status=1 THEN 'Active' ELSE 'Inactive' END AS 'Status',v.CDate, CONVERT(varchar,v.CDate,106) as 'CreationDate'
+FROM Vendor v
+LEFT JOIN Country c on v.CountryId=c.Id
+WHERE v.Status=1
+GO
+/****** Object:  View [dbo].[InactiveVendor]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[InactiveVendor]
+AS
+Select v.Id,v.Name,v.Code,v.Address,v.Pincode,v.CountryId,c.Name as 'Country',v.GSTNo,v.Remarks,
+CASE WHEN v.Status=1 THEN 'Active' ELSE 'Inactive' END AS 'Status',v.CDate, CONVERT(varchar,v.CDate,106) as 'CreationDate'
+FROM Vendor v
+LEFT JOIN Country c on v.CountryId=c.Id
+WHERE v.Status=0
+GO
+/****** Object:  View [dbo].[CountryView]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[CountryView]
+AS
+SELECT ID,Name,CountryCode,Status,CASE WHEN Status=1 THEN 'Active' ELSE 'Inactive' END AS 'StatusName',Convert(varchar,EntryDate,106) as EntryDate FROM Country
+GO
+/****** Object:  Table [dbo].[Department]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Department](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](200) NULL,
+	[DepCode] [nvarchar](10) NULL,
+	[Status] [bit] NULL,
+	[EntryDate] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  View [dbo].[DepartmentView]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+Create View [dbo].[DepartmentView]
+AS
+SELECT Id,Name,DepCode,CASE WHEN Status=1 THEN 'Active' ELSE 'Inactive' END AS STATUS,CONVERT(varchar,EntryDate,106) as EntryDate FROM Department
+GO
+/****** Object:  Table [dbo].[Currency]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Currency](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](20) NULL,
+	[Symbol] [nvarchar](5) NULL,
+	[Status] [bit] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  View [dbo].[RFQView]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE view [dbo].[RFQView]
+as  
+Select r.Id,r.APSIId,r.ProjectName,r.ProjectCode,r.ClientId,r.PMId,r.Complexity,r.Status,  
+Case when r.Status=0 then 'New' when r.Status=1 then 'Quotated' when r.Status=2 then 'Won' when r.Status=3 then 'Lost'
+when r.Status=4 then 'Hold' end as 'StatusName' 
+,r.Uid,r.CDate,r.CTime,r.Remarks,r.Date,r.Time,  
+CONVERT(varchar,r.Date,106) as 'ReceiveDate',r.ApprovalDate,CONVERT(varchar,ApprovalDate,106) as 'AprDate',r.ApprovalTime  
+,c.Name as 'Client',c.Code as 'ClientCode',ct.Name as 'Country',cc.Name as 'ProjectManager',cc.Mobile,cc.Email,  
+cc.AltMobile,cc.Designation,u.Name as 'CreatedBy',r.CommitmentDate,Convert(varchar,r.CommitmentDate,106) as 'CommitDate',
+r.CurrencyId,cur.Name as 'Currency',cur.Symbol as 'CurrencySymbol'
+from RFQ r  
+left join Client c on r.ClientId=c.Id  
+left join Country ct on c.CountryId=ct.Id  
+left join ClientContacts cc on r.PMId=cc.Id  
+left join Users u on r.Uid=u.Id  
+left join Currency cur on r.CurrencyId=cur.Id
+GO
+/****** Object:  Table [dbo].[RFQServices]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[RFQServices](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[RFQId] [int] NULL,
+	[Sid] [int] NULL,
+	[Price] [float] NULL,
+	[Unit] [float] NULL,
+	[Total] [float] NULL,
+	[Remarks] [nvarchar](2000) NULL,
+	[IsDeleted] [bit] NULL,
+	[Uid] [int] NULL,
+	[Status] [int] NULL,
+	[Type] [nvarchar](20) NULL,
+	[Complexity] [int] NULL,
+	[CDate] [datetime] NULL,
+	[CTime] [nvarchar](20) NULL,
+	[StatusDate] [datetime] NULL,
+	[StatusTime] [nvarchar](50) NULL,
+	[CommitDate] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  View [dbo].[QuotedRFQ]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE view [dbo].[QuotedRFQ]
+as  
+Select r.Id,r.APSIId,r.ProjectName,r.ProjectCode,r.ClientId,r.PMId,r.Complexity,r.Status,  
+Case when r.Status=0 then 'New' when r.Status=1 then 'Quotated' when r.Status=2 then 'Won' when r.Status=3 then 'Lost'
+when r.Status=4 then 'Hold' end as 'StatusName' 
+,r.Uid,r.CDate,r.CTime,r.Remarks,r.Date,r.Time,  
+CONVERT(varchar,r.Date,106) as 'ReceiveDate',r.ApprovalDate,CONVERT(varchar,ApprovalDate,106) as 'AprDate',r.ApprovalTime  
+,c.Name as 'Client',c.Code as 'ClientCode',ct.Name as 'Country',cc.Name as 'ProjectManager',cc.Mobile,cc.Email,  
+cc.AltMobile,cc.Designation,u.Name as 'CreatedBy',r.CommitmentDate,Convert(varchar,r.CommitmentDate,106) as 'CommitDate',
+r.CurrencyId,cur.Name as 'Currency',cur.Symbol as 'CurrencySymbol'
+from RFQ r  
+left join Client c on r.ClientId=c.Id  
+left join Country ct on c.CountryId=ct.Id  
+left join ClientContacts cc on r.PMId=cc.Id  
+left join Users u on r.Uid=u.Id  
+left join Currency cur on r.CurrencyId=cur.Id
+where r.Id in (Select RFQId from RFQServices where Status=1)
+GO
+/****** Object:  View [dbo].[WonRFQ]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE view [dbo].[WonRFQ]
+as  
+Select r.Id,r.APSIId,r.ProjectName,r.ProjectCode,r.ClientId,r.PMId,r.Complexity,r.Status,  
+Case when r.Status=0 then 'New' when r.Status=1 then 'Quotated' when r.Status=2 then 'Won' when r.Status=3 then 'Lost'
+when r.Status=4 then 'Hold' end as 'StatusName' 
+,r.Uid,r.CDate,r.CTime,r.Remarks,r.Date,r.Time,  
+CONVERT(varchar,r.Date,106) as 'ReceiveDate',r.ApprovalDate,CONVERT(varchar,ApprovalDate,106) as 'AprDate',r.ApprovalTime  
+,c.Name as 'Client',c.Code as 'ClientCode',ct.Name as 'Country',cc.Name as 'ProjectManager',cc.Mobile,cc.Email,  
+cc.AltMobile,cc.Designation,u.Name as 'CreatedBy',r.CommitmentDate,Convert(varchar,r.CommitmentDate,106) as 'CommitDate',
+r.CurrencyId,cur.Name as 'Currency',cur.Symbol as 'CurrencySymbol'
+from RFQ r  
+left join Client c on r.ClientId=c.Id  
+left join Country ct on c.CountryId=ct.Id  
+left join ClientContacts cc on r.PMId=cc.Id  
+left join Users u on r.Uid=u.Id  
+left join Currency cur on r.CurrencyId=cur.Id
+where r.Id in (Select RFQId from RFQServices where Status=2)
+GO
+/****** Object:  View [dbo].[LostRFQ]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE view [dbo].[LostRFQ]
+as  
+Select r.Id,r.APSIId,r.ProjectName,r.ProjectCode,r.ClientId,r.PMId,r.Complexity,r.Status,  
+Case when r.Status=0 then 'New' when r.Status=1 then 'Quotated' when r.Status=2 then 'Won' when r.Status=3 then 'Lost'
+when r.Status=4 then 'Hold' end as 'StatusName' 
+,r.Uid,r.CDate,r.CTime,r.Remarks,r.Date,r.Time,  
+CONVERT(varchar,r.Date,106) as 'ReceiveDate',r.ApprovalDate,CONVERT(varchar,ApprovalDate,106) as 'AprDate',r.ApprovalTime  
+,c.Name as 'Client',c.Code as 'ClientCode',ct.Name as 'Country',cc.Name as 'ProjectManager',cc.Mobile,cc.Email,  
+cc.AltMobile,cc.Designation,u.Name as 'CreatedBy',r.CommitmentDate,Convert(varchar,r.CommitmentDate,106) as 'CommitDate',
+r.CurrencyId,cur.Name as 'Currency',cur.Symbol as 'CurrencySymbol'
+from RFQ r  
+left join Client c on r.ClientId=c.Id  
+left join Country ct on c.CountryId=ct.Id  
+left join ClientContacts cc on r.PMId=cc.Id  
+left join Users u on r.Uid=u.Id  
+left join Currency cur on r.CurrencyId=cur.Id
+where r.Id in (Select RFQId from RFQServices where Status=3)
+GO
+/****** Object:  View [dbo].[UsersView]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE view [dbo].[UsersView]  
+as  
+Select u.Id,u.Name,u.EmpCode,u.Mobile,u.Email,u.Username,u.Password,u.Type,Case when u.Type=0 then 'Admin' when u.Type=1 then 'Sub-Admin' when u.Type=2 then 'User'  
+end as TypeName,Case when u.Status=1 then 'Active' else 'Inactive' end as Status,CONVERT(varchar,u.EntryDate,106) as 'Date',  
+u.DesignationId,d.Name as 'Designation',u.DepartmentId,dep.Name as 'Department',u.Division,
+CASE when u.Division=0 then 'Operations' when u.Division=1 then 'Business Development' when u.Division=2 then 'Management'
+when u.Division=3 then 'Support' end as 'DivisionName'
+from Users u  
+left join Designation d on u.DesignationId=d.Id  
+left join Department dep on u.DepartmentId=dep.Id
+GO
+/****** Object:  View [dbo].[InactiveUsers]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE View [dbo].[InactiveUsers] 
+as  
+Select u.Id,u.Name,u.EmpCode,u.Mobile,u.Email,u.Username,u.Password,u.Type,Case when u.Type=0 then 'Admin' when u.Type=1 then 'Sub-Admin' when u.Type=2 then 'User'  
+end as TypeName,Case when u.Status=1 then 'Active' else 'Inactive' end as Status,CONVERT(varchar,u.EntryDate,106) as 'Date',  
+u.DesignationId,d.Name as 'Designation',u.DepartmentId,dep.Name as 'Department',u.Division,
+CASE when u.Division=0 then 'Operations' when u.Division=1 then 'Business Development' when u.Division=2 then 'Management'
+when u.Division=3 then 'Support' end as 'DivisionName'
+from Users u  
+left join Designation d on u.DesignationId=d.Id  
+left join Department dep on u.DepartmentId=dep.Id  
+where u.Status=0
+GO
+/****** Object:  View [dbo].[ActiveUsers]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE View [dbo].[ActiveUsers] 
+as  
+Select u.Id,u.Name,u.EmpCode,u.Mobile,u.Email,u.Username,u.Password,u.Type,Case when u.Type=0 then 'Admin' when u.Type=1 then 'Sub-Admin' when u.Type=2 then 'User'  
+end as TypeName,Case when u.Status=1 then 'Active' else 'Inactive' end as Status,CONVERT(varchar,u.EntryDate,106) as 'Date',  
+u.DesignationId,d.Name as 'Designation',u.DepartmentId,dep.Name as 'Department',u.Division,
+CASE when u.Division=0 then 'Operations' when u.Division=1 then 'Business Development' when u.Division=2 then 'Management'
+when u.Division=3 then 'Support' end as 'DivisionName'
+from Users u  
+left join Designation d on u.DesignationId=d.Id  
+left join Department dep on u.DepartmentId=dep.Id  
+where u.Status=1
+GO
+/****** Object:  View [dbo].[CurrencyView]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[CurrencyView]  
+as  
+Select *,case when Status=1 then 'Active' else 'Inactive' end as 'StatusName' from Currency
+GO
+/****** Object:  Table [dbo].[Service]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Service](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](200) NULL,
+	[Status] [bit] NULL,
+	[Uid] [int] NULL,
+	[Did] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  View [dbo].[ActiveService]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE view [dbo].[ActiveService]
+as
+Select s.*,d.Name as 'Department',d.DepCode from Service s
+left join Department d on s.Did=d.Id
+where s.Status=1
+GO
+/****** Object:  View [dbo].[InactiveService]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE view [dbo].[InactiveService]
+as
+Select s.*,d.Name as 'Department',d.DepCode from Service s
+left join Department d on s.Did=d.Id
+where s.Status=0
+GO
+/****** Object:  View [dbo].[ServiceView]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create View [dbo].[ServiceView]
+as
+Select s.*,d.Name as 'Department',d.DepCode from Service s
+left join Department d on s.Did=d.Id
+GO
+/****** Object:  View [dbo].[HoldRFQ]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE view [dbo].[HoldRFQ]
+as  
+Select r.Id,r.APSIId,r.ProjectName,r.ProjectCode,r.ClientId,r.PMId,r.Complexity,r.Status,  
+Case when r.Status=0 then 'New' when r.Status=1 then 'Quotated' when r.Status=2 then 'Won' when r.Status=3 then 'Lost'
+when r.Status=4 then 'Hold' end as 'StatusName' 
+,r.Uid,r.CDate,r.CTime,r.Remarks,r.Date,r.Time,  
+CONVERT(varchar,r.Date,106) as 'ReceiveDate',r.ApprovalDate,CONVERT(varchar,ApprovalDate,106) as 'AprDate',r.ApprovalTime  
+,c.Name as 'Client',c.Code as 'ClientCode',ct.Name as 'Country',cc.Name as 'ProjectManager',cc.Mobile,cc.Email,  
+cc.AltMobile,cc.Designation,u.Name as 'CreatedBy',r.CommitmentDate,Convert(varchar,r.CommitmentDate,106) as 'CommitDate',
+r.CurrencyId,cur.Name as 'Currency',cur.Symbol as 'CurrencySymbol'
+from RFQ r  
+left join Client c on r.ClientId=c.Id  
+left join Country ct on c.CountryId=ct.Id  
+left join ClientContacts cc on r.PMId=cc.Id  
+left join Users u on r.Uid=u.Id  
+left join Currency cur on r.CurrencyId=cur.Id
+where r.Id in (Select RFQId from RFQServices where Status=4)
+GO
+/****** Object:  Table [dbo].[SubService]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[SubService](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](200) NULL,
+	[Sid] [int] NULL,
+	[Billable] [bit] NULL,
+	[Status] [bit] NULL,
+	[Uid] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  View [dbo].[SubServiceView]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+Create View [dbo].[SubServiceView]
+as
+Select ss.*,s.Name as 'Service',case when ss.Billable=1 then 'Yes' else 'No' end as 'BillableName' from SubService ss
+left join Service s on ss.Sid=s.Id
+GO
+/****** Object:  View [dbo].[ActiveSubService]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+Create View [dbo].[ActiveSubService]
+as
+Select ss.*,s.Name as 'Service',case when ss.Billable=1 then 'Yes' else 'No' end as 'BillableName' from SubService ss
+left join Service s on ss.Sid=s.Id 
+where ss.Status = 1
+GO
+/****** Object:  View [dbo].[InactiveSubService]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+Create View [dbo].[InactiveSubService]
+as
+Select ss.*,s.Name as 'Service',case when ss.Billable=1 then 'Yes' else 'No' end as 'BillableName' from SubService ss
+left join Service s on ss.Sid=s.Id 
+where ss.Status = 0
+GO
+/****** Object:  Table [dbo].[AllotedDepartment]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[AllotedDepartment](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Uid] [int] NULL,
+	[Did] [int] NULL,
+	[AllotedBy] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[LoginLogs]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LoginLogs](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Uid] [int] NULL,
+	[LoginDate] [datetime] NULL,
+	[LogoutDate] [datetime] NULL,
+	[IPAddress] [nvarchar](20) NULL,
+	[Type] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MenuPrivilege]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MenuPrivilege](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Uid] [int] NULL,
+	[Country] [bit] NULL,
+	[Department] [bit] NULL,
+	[Users] [bit] NULL,
+	[Client] [bit] NULL,
+	[Vendor] [bit] NULL,
+	[Service] [bit] NULL,
+	[RFQ] [bit] NULL,
+	[Quotation] [bit] NULL,
+	[Project] [bit] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ProjectServices]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ProjectServices](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Pid] [int] NULL,
+	[Sid] [int] NULL,
+	[Price] [float] NULL,
+	[Unit] [float] NULL,
+	[Total] [float] NULL,
+	[Status] [int] NULL,
+	[Type] [nvarchar](20) NULL,
+	[Complexity] [int] NULL,
+	[StatusDate] [datetime] NULL,
+	[StatusTime] [nvarchar](50) NULL,
+	[CommitDate] [datetime] NULL,
+	[Remarks] [nvarchar](max) NULL,
+	[Uid] [int] NULL,
+	[CDATE] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ProjectUsersAssigned]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ProjectUsersAssigned](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[ProjectServiceId] [int] NULL,
+	[Uid] [int] NULL,
+	[AllotedBy] [int] NULL,
+	[Date] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[VendorContacts]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[VendorContacts](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](200) NULL,
+	[Mobile] [nvarchar](50) NULL,
+	[Email] [nvarchar](200) NULL,
+	[AltMobile] [nvarchar](50) NULL,
+	[Designation] [nvarchar](200) NULL,
+	[VendorId] [int] NULL,
+	[Status] [bit] NULL,
+	[CDate] [datetime] NULL,
+	[Deleted] [bit] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[AllotedDepartment] ON 
+GO
+INSERT [dbo].[AllotedDepartment] ([Id], [Uid], [Did], [AllotedBy]) VALUES (40, 1, 1, 1)
+GO
+INSERT [dbo].[AllotedDepartment] ([Id], [Uid], [Did], [AllotedBy]) VALUES (42, 1, 8, 1)
+GO
+INSERT [dbo].[AllotedDepartment] ([Id], [Uid], [Did], [AllotedBy]) VALUES (43, 1, 5, 1)
+GO
+INSERT [dbo].[AllotedDepartment] ([Id], [Uid], [Did], [AllotedBy]) VALUES (48, 6, 15, 1)
+GO
+INSERT [dbo].[AllotedDepartment] ([Id], [Uid], [Did], [AllotedBy]) VALUES (51, 9, 15, 1)
+GO
+SET IDENTITY_INSERT [dbo].[AllotedDepartment] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Client] ON 
+GO
+INSERT [dbo].[Client] ([Id], [Name], [Code], [Address], [Pincode], [CountryId], [GSTNo], [Remarks], [Status], [CDate]) VALUES (4, N'Microsoft Corporation ', N'MC_US', N'1, Microsoft Way, Redmond Washington', N'75456', 4, N'GST8675875', N'They provide lots of programming work to us.', 1, CAST(N'2023-02-17T00:00:00.000' AS DateTime))
+GO
+INSERT [dbo].[Client] ([Id], [Name], [Code], [Address], [Pincode], [CountryId], [GSTNo], [Remarks], [Status], [CDate]) VALUES (13, N'Conde Nast', N'CN_US', N'Times Square, New York', N'I764HI', 4, N'sfdg', N'Hello', 1, CAST(N'2023-02-27T00:00:00.000' AS DateTime))
+GO
+INSERT [dbo].[Client] ([Id], [Name], [Code], [Address], [Pincode], [CountryId], [GSTNo], [Remarks], [Status], [CDate]) VALUES (27, N'M', N'mm', N'mm', NULL, 3, NULL, NULL, 0, CAST(N'2023-03-16T00:00:00.000' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[Client] OFF
+GO
+SET IDENTITY_INSERT [dbo].[ClientContacts] ON 
+GO
+INSERT [dbo].[ClientContacts] ([Id], [Name], [Mobile], [Email], [AltMobile], [Designation], [ClientId], [Status], [CDate], [Deleted]) VALUES (12, N'Bill Gates', N'9798565', N'bgates@microsoft.com', N'98765e4', N'Chairperson', 4, 1, CAST(N'2023-02-17T00:00:00.000' AS DateTime), 0)
+GO
+INSERT [dbo].[ClientContacts] ([Id], [Name], [Mobile], [Email], [AltMobile], [Designation], [ClientId], [Status], [CDate], [Deleted]) VALUES (15, N'Robert', N'9876564', N'robert@condenasrt.com', N'', N'Project Director', 13, 1, CAST(N'2023-02-27T00:00:00.000' AS DateTime), 0)
+GO
+INSERT [dbo].[ClientContacts] ([Id], [Name], [Mobile], [Email], [AltMobile], [Designation], [ClientId], [Status], [CDate], [Deleted]) VALUES (16, N'Shawn Matthew', N'98765432', N'shawn@condenast.com', N'9102902', N'Project Manager', 13, 1, CAST(N'2023-02-27T00:00:00.000' AS DateTime), 0)
+GO
+INSERT [dbo].[ClientContacts] ([Id], [Name], [Mobile], [Email], [AltMobile], [Designation], [ClientId], [Status], [CDate], [Deleted]) VALUES (1039, N'mm', N'', N'mm@gmail.com', N'', N'', 27, 1, CAST(N'2023-03-16T00:00:00.000' AS DateTime), 0)
+GO
+INSERT [dbo].[ClientContacts] ([Id], [Name], [Mobile], [Email], [AltMobile], [Designation], [ClientId], [Status], [CDate], [Deleted]) VALUES (1040, N'nn', NULL, N'nn@gmail.com', NULL, NULL, 27, 1, CAST(N'2023-03-16T00:00:00.000' AS DateTime), 0)
+GO
+INSERT [dbo].[ClientContacts] ([Id], [Name], [Mobile], [Email], [AltMobile], [Designation], [ClientId], [Status], [CDate], [Deleted]) VALUES (1041, N'Test', NULL, N'mk@gmai.com', NULL, NULL, 13, 1, CAST(N'2023-03-24T00:00:00.000' AS DateTime), 1)
+GO
+INSERT [dbo].[ClientContacts] ([Id], [Name], [Mobile], [Email], [AltMobile], [Designation], [ClientId], [Status], [CDate], [Deleted]) VALUES (1042, N'sdjd', NULL, N'djdj@gmail.com', NULL, NULL, 13, 1, CAST(N'2023-03-24T00:00:00.000' AS DateTime), 0)
+GO
+INSERT [dbo].[ClientContacts] ([Id], [Name], [Mobile], [Email], [AltMobile], [Designation], [ClientId], [Status], [CDate], [Deleted]) VALUES (1043, N'dk', N'', N'dj@gmail.com', N'', N'', 27, 1, CAST(N'2023-03-24T18:00:17.960' AS DateTime), 1)
+GO
+SET IDENTITY_INSERT [dbo].[ClientContacts] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Country] ON 
+GO
+INSERT [dbo].[Country] ([Id], [Name], [CountryCode], [Status], [EntryDate]) VALUES (3, N'India', N'IN', 1, CAST(N'2023-02-07T00:00:00.000' AS DateTime))
+GO
+INSERT [dbo].[Country] ([Id], [Name], [CountryCode], [Status], [EntryDate]) VALUES (4, N'USA', N'US', 1, CAST(N'2023-02-17T00:00:00.000' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[Country] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Currency] ON 
+GO
+INSERT [dbo].[Currency] ([Id], [Name], [Symbol], [Status]) VALUES (1, N'INR', N'₹', 1)
+GO
+INSERT [dbo].[Currency] ([Id], [Name], [Symbol], [Status]) VALUES (2, N'USD', N'$', 1)
+GO
+SET IDENTITY_INSERT [dbo].[Currency] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Department] ON 
+GO
+INSERT [dbo].[Department] ([Id], [Name], [DepCode], [Status], [EntryDate]) VALUES (1, N'Application Development', N'AD', 1, CAST(N'2023-02-10T00:00:00.000' AS DateTime))
+GO
+INSERT [dbo].[Department] ([Id], [Name], [DepCode], [Status], [EntryDate]) VALUES (4, N'Server Programming', N'SP', 1, CAST(N'2023-02-09T00:00:00.000' AS DateTime))
+GO
+INSERT [dbo].[Department] ([Id], [Name], [DepCode], [Status], [EntryDate]) VALUES (5, N'Panel Services', N'PS', 1, CAST(N'2023-02-09T00:00:00.000' AS DateTime))
+GO
+INSERT [dbo].[Department] ([Id], [Name], [DepCode], [Status], [EntryDate]) VALUES (6, N'Human Resources', N'HR', 1, CAST(N'2023-02-13T00:00:00.000' AS DateTime))
+GO
+INSERT [dbo].[Department] ([Id], [Name], [DepCode], [Status], [EntryDate]) VALUES (7, N'Information & Technology', N'IT', 1, CAST(N'2023-02-09T00:00:00.000' AS DateTime))
+GO
+INSERT [dbo].[Department] ([Id], [Name], [DepCode], [Status], [EntryDate]) VALUES (8, N'Finance', N'FIN', 1, CAST(N'2023-02-09T00:00:00.000' AS DateTime))
+GO
+INSERT [dbo].[Department] ([Id], [Name], [DepCode], [Status], [EntryDate]) VALUES (15, N'Data Processing', N'DP', 1, CAST(N'2023-02-22T00:00:00.000' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[Department] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Designation] ON 
+GO
+INSERT [dbo].[Designation] ([Id], [Name], [Status]) VALUES (1, N'Trainee', 1)
+GO
+INSERT [dbo].[Designation] ([Id], [Name], [Status]) VALUES (3, N'Software Developer', 1)
+GO
+SET IDENTITY_INSERT [dbo].[Designation] OFF
+GO
+SET IDENTITY_INSERT [dbo].[LoginLogs] ON 
+GO
+INSERT [dbo].[LoginLogs] ([Id], [Uid], [LoginDate], [LogoutDate], [IPAddress], [Type]) VALUES (1, 1, CAST(N'2023-03-14T14:46:59.540' AS DateTime), NULL, N'192.168.10.88', NULL)
+GO
+INSERT [dbo].[LoginLogs] ([Id], [Uid], [LoginDate], [LogoutDate], [IPAddress], [Type]) VALUES (2, 6, CAST(N'2023-03-15T14:33:41.210' AS DateTime), CAST(N'2023-03-16T13:26:01.907' AS DateTime), N'192.168.10.92', 0)
+GO
+INSERT [dbo].[LoginLogs] ([Id], [Uid], [LoginDate], [LogoutDate], [IPAddress], [Type]) VALUES (3, 1, CAST(N'2023-03-20T13:39:47.710' AS DateTime), CAST(N'2023-03-20T15:46:49.700' AS DateTime), N'192.168.10.92', 0)
+GO
+INSERT [dbo].[LoginLogs] ([Id], [Uid], [LoginDate], [LogoutDate], [IPAddress], [Type]) VALUES (4, 1, CAST(N'2023-03-20T15:46:54.323' AS DateTime), NULL, N'192.168.10.92', NULL)
+GO
+INSERT [dbo].[LoginLogs] ([Id], [Uid], [LoginDate], [LogoutDate], [IPAddress], [Type]) VALUES (5, 1, CAST(N'2023-03-20T17:54:44.000' AS DateTime), NULL, N'192.168.10.92', NULL)
+GO
+INSERT [dbo].[LoginLogs] ([Id], [Uid], [LoginDate], [LogoutDate], [IPAddress], [Type]) VALUES (6, 1, CAST(N'2023-03-21T14:10:07.283' AS DateTime), NULL, N'192.168.10.111', NULL)
+GO
+INSERT [dbo].[LoginLogs] ([Id], [Uid], [LoginDate], [LogoutDate], [IPAddress], [Type]) VALUES (7, 1, CAST(N'2023-03-21T14:36:52.117' AS DateTime), NULL, N'192.168.10.111', NULL)
+GO
+INSERT [dbo].[LoginLogs] ([Id], [Uid], [LoginDate], [LogoutDate], [IPAddress], [Type]) VALUES (8, 1, CAST(N'2023-03-22T15:17:03.307' AS DateTime), NULL, N'192.168.10.111', NULL)
+GO
+INSERT [dbo].[LoginLogs] ([Id], [Uid], [LoginDate], [LogoutDate], [IPAddress], [Type]) VALUES (9, 1, CAST(N'2023-03-22T15:36:11.763' AS DateTime), NULL, N'192.168.10.111', NULL)
+GO
+INSERT [dbo].[LoginLogs] ([Id], [Uid], [LoginDate], [LogoutDate], [IPAddress], [Type]) VALUES (10, 1, CAST(N'2023-03-22T15:42:16.613' AS DateTime), NULL, N'192.168.10.111', NULL)
+GO
+INSERT [dbo].[LoginLogs] ([Id], [Uid], [LoginDate], [LogoutDate], [IPAddress], [Type]) VALUES (11, 1, CAST(N'2023-03-22T16:04:50.720' AS DateTime), CAST(N'2023-03-24T16:08:21.733' AS DateTime), N'192.168.10.111', 0)
+GO
+INSERT [dbo].[LoginLogs] ([Id], [Uid], [LoginDate], [LogoutDate], [IPAddress], [Type]) VALUES (12, 1, CAST(N'2023-03-23T17:24:14.307' AS DateTime), NULL, N'192.168.10.111', NULL)
+GO
+INSERT [dbo].[LoginLogs] ([Id], [Uid], [LoginDate], [LogoutDate], [IPAddress], [Type]) VALUES (13, 1, CAST(N'2023-03-24T16:09:16.323' AS DateTime), CAST(N'2023-03-24T17:59:49.627' AS DateTime), N'192.168.10.111', 0)
+GO
+INSERT [dbo].[LoginLogs] ([Id], [Uid], [LoginDate], [LogoutDate], [IPAddress], [Type]) VALUES (14, 1, CAST(N'2023-03-24T17:59:54.487' AS DateTime), NULL, N'192.168.10.111', NULL)
+GO
+INSERT [dbo].[LoginLogs] ([Id], [Uid], [LoginDate], [LogoutDate], [IPAddress], [Type]) VALUES (15, 1, CAST(N'2023-03-24T18:09:21.287' AS DateTime), NULL, N'192.168.10.111', NULL)
+GO
+INSERT [dbo].[LoginLogs] ([Id], [Uid], [LoginDate], [LogoutDate], [IPAddress], [Type]) VALUES (16, 1, CAST(N'2023-03-24T18:11:57.640' AS DateTime), NULL, N'192.168.10.111', NULL)
+GO
+INSERT [dbo].[LoginLogs] ([Id], [Uid], [LoginDate], [LogoutDate], [IPAddress], [Type]) VALUES (17, 1, CAST(N'2023-03-24T18:17:17.240' AS DateTime), NULL, N'192.168.10.111', NULL)
+GO
+INSERT [dbo].[LoginLogs] ([Id], [Uid], [LoginDate], [LogoutDate], [IPAddress], [Type]) VALUES (18, 1, CAST(N'2023-03-27T13:24:31.483' AS DateTime), NULL, N'192.168.10.96', NULL)
+GO
+SET IDENTITY_INSERT [dbo].[LoginLogs] OFF
+GO
+SET IDENTITY_INSERT [dbo].[MenuPrivilege] ON 
+GO
+INSERT [dbo].[MenuPrivilege] ([Id], [Uid], [Country], [Department], [Users], [Client], [Vendor], [Service], [RFQ], [Quotation], [Project]) VALUES (1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1)
+GO
+INSERT [dbo].[MenuPrivilege] ([Id], [Uid], [Country], [Department], [Users], [Client], [Vendor], [Service], [RFQ], [Quotation], [Project]) VALUES (2, 6, 0, 0, 0, 0, 0, 0, 1, 0, 0)
+GO
+INSERT [dbo].[MenuPrivilege] ([Id], [Uid], [Country], [Department], [Users], [Client], [Vendor], [Service], [RFQ], [Quotation], [Project]) VALUES (4, 9, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0)
+GO
+SET IDENTITY_INSERT [dbo].[MenuPrivilege] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Project] ON 
+GO
+INSERT [dbo].[Project] ([Id], [RFQID], [Remarks], [Uid], [CDate]) VALUES (1006, 24, N'Testing', 1, CAST(N'2023-03-14T14:15:27.187' AS DateTime))
+GO
+INSERT [dbo].[Project] ([Id], [RFQID], [Remarks], [Uid], [CDate]) VALUES (1007, 21, NULL, 1, CAST(N'2023-03-21T16:00:44.020' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[Project] OFF
+GO
+SET IDENTITY_INSERT [dbo].[ProjectServices] ON 
+GO
+INSERT [dbo].[ProjectServices] ([Id], [Pid], [Sid], [Price], [Unit], [Total], [Status], [Type], [Complexity], [StatusDate], [StatusTime], [CommitDate], [Remarks], [Uid], [CDATE]) VALUES (1, 1006, 13, 75, 3, 225, 0, N'Project', 3, CAST(N'2023-03-14T00:00:00.000' AS DateTime), N'14:15', CAST(N'2023-03-14T00:00:00.000' AS DateTime), N'Dashboard', 1, CAST(N'2023-03-14T14:15:27.213' AS DateTime))
+GO
+INSERT [dbo].[ProjectServices] ([Id], [Pid], [Sid], [Price], [Unit], [Total], [Status], [Type], [Complexity], [StatusDate], [StatusTime], [CommitDate], [Remarks], [Uid], [CDATE]) VALUES (2, 1006, 10, 10.5, 200, 2100, 0, N'Hour', 2, CAST(N'2023-03-14T00:00:00.000' AS DateTime), N'14:15', CAST(N'2023-03-14T00:00:00.000' AS DateTime), N'Sample Services', 1, CAST(N'2023-03-14T14:16:01.133' AS DateTime))
+GO
+INSERT [dbo].[ProjectServices] ([Id], [Pid], [Sid], [Price], [Unit], [Total], [Status], [Type], [Complexity], [StatusDate], [StatusTime], [CommitDate], [Remarks], [Uid], [CDATE]) VALUES (3, 1006, 12, 100, 1, 100, 0, N'Project', 1, CAST(N'2023-03-17T00:00:00.000' AS DateTime), N'15:39', CAST(N'2023-04-09T00:00:00.000' AS DateTime), N'LO', 1, CAST(N'2023-03-17T15:40:05.830' AS DateTime))
+GO
+INSERT [dbo].[ProjectServices] ([Id], [Pid], [Sid], [Price], [Unit], [Total], [Status], [Type], [Complexity], [StatusDate], [StatusTime], [CommitDate], [Remarks], [Uid], [CDATE]) VALUES (4, 1006, 9, 10, 10, 100, 0, N'Hour', 3, CAST(N'2023-03-21T00:00:00.000' AS DateTime), N'15:59', CAST(N'2023-03-21T00:00:00.000' AS DateTime), N'ok', 1, CAST(N'2023-03-21T15:59:55.327' AS DateTime))
+GO
+INSERT [dbo].[ProjectServices] ([Id], [Pid], [Sid], [Price], [Unit], [Total], [Status], [Type], [Complexity], [StatusDate], [StatusTime], [CommitDate], [Remarks], [Uid], [CDATE]) VALUES (5, 1007, 13, 9, 1, 9, 0, N'Project', 1, CAST(N'2023-03-21T00:00:00.000' AS DateTime), N'16:00', CAST(N'2023-03-21T00:00:00.000' AS DateTime), N'm', 1, CAST(N'2023-03-21T16:00:44.053' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[ProjectServices] OFF
+GO
+SET IDENTITY_INSERT [dbo].[ProjectUsersAssigned] ON 
+GO
+INSERT [dbo].[ProjectUsersAssigned] ([Id], [ProjectServiceId], [Uid], [AllotedBy], [Date]) VALUES (1, 1, 9, 1, CAST(N'2023-03-17T14:20:31.707' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[ProjectUsersAssigned] OFF
+GO
+SET IDENTITY_INSERT [dbo].[RFQ] ON 
+GO
+INSERT [dbo].[RFQ] ([Id], [ProjectName], [ProjectCode], [ClientId], [PMId], [Complexity], [Status], [Uid], [CDate], [CTime], [Remarks], [Date], [Time], [ApprovalDate], [ApprovalTime], [CommitmentDate], [CurrencyId], [APSIId]) VALUES (17, N'ABC Communication', N'ABC_COM_US', 13, 16, 4, 2, 1, CAST(N'2023-02-28T00:00:00.000' AS DateTime), N'06:55 PM', N'OK', CAST(N'2023-02-28T00:00:00.000' AS DateTime), N'18:54', NULL, NULL, NULL, 2, N'ADS230001')
+GO
+INSERT [dbo].[RFQ] ([Id], [ProjectName], [ProjectCode], [ClientId], [PMId], [Complexity], [Status], [Uid], [CDate], [CTime], [Remarks], [Date], [Time], [ApprovalDate], [ApprovalTime], [CommitmentDate], [CurrencyId], [APSIId]) VALUES (18, N'OK', N'OK', 13, 15, 4, 1, 1, CAST(N'2023-03-01T00:00:00.000' AS DateTime), N'01:50 PM', N'OK', CAST(N'2023-03-01T00:00:00.000' AS DateTime), N'13:50', NULL, NULL, NULL, 2, N'ADS230002')
+GO
+INSERT [dbo].[RFQ] ([Id], [ProjectName], [ProjectCode], [ClientId], [PMId], [Complexity], [Status], [Uid], [CDate], [CTime], [Remarks], [Date], [Time], [ApprovalDate], [ApprovalTime], [CommitmentDate], [CurrencyId], [APSIId]) VALUES (19, N'kk', N'kk', 4, 12, 2, 1, 1, CAST(N'2023-03-01T00:00:00.000' AS DateTime), N'01:54 PM', N'OK', CAST(N'2023-03-01T00:00:00.000' AS DateTime), N'13:54', NULL, NULL, NULL, 2, N'ADS230003')
+GO
+INSERT [dbo].[RFQ] ([Id], [ProjectName], [ProjectCode], [ClientId], [PMId], [Complexity], [Status], [Uid], [CDate], [CTime], [Remarks], [Date], [Time], [ApprovalDate], [ApprovalTime], [CommitmentDate], [CurrencyId], [APSIId]) VALUES (20, N'l', N'l', 13, 15, 4, 2, 1, CAST(N'2023-03-01T00:00:00.000' AS DateTime), N'01:55 PM', N'CC', CAST(N'2023-03-01T00:00:00.000' AS DateTime), N'13:55', NULL, NULL, NULL, 1, N'ADS230004')
+GO
+INSERT [dbo].[RFQ] ([Id], [ProjectName], [ProjectCode], [ClientId], [PMId], [Complexity], [Status], [Uid], [CDate], [CTime], [Remarks], [Date], [Time], [ApprovalDate], [ApprovalTime], [CommitmentDate], [CurrencyId], [APSIId]) VALUES (21, N'm', N'm', 4, 12, 1, 2, 1, CAST(N'2023-03-01T00:00:00.000' AS DateTime), N'01:57 PM', NULL, CAST(N'2023-03-01T00:00:00.000' AS DateTime), N'13:57', NULL, NULL, NULL, 1, N'ADS230005')
+GO
+INSERT [dbo].[RFQ] ([Id], [ProjectName], [ProjectCode], [ClientId], [PMId], [Complexity], [Status], [Uid], [CDate], [CTime], [Remarks], [Date], [Time], [ApprovalDate], [ApprovalTime], [CommitmentDate], [CurrencyId], [APSIId]) VALUES (22, N'n', N'n', 13, 15, 1, 2, 1, CAST(N'2023-03-01T00:00:00.000' AS DateTime), N'01:59 PM', N'OK', CAST(N'2023-03-01T00:00:00.000' AS DateTime), N'13:59', NULL, NULL, NULL, 1, N'ADS230006')
+GO
+INSERT [dbo].[RFQ] ([Id], [ProjectName], [ProjectCode], [ClientId], [PMId], [Complexity], [Status], [Uid], [CDate], [CTime], [Remarks], [Date], [Time], [ApprovalDate], [ApprovalTime], [CommitmentDate], [CurrencyId], [APSIId]) VALUES (23, N'g', N'g', 13, 15, 4, 2, 1, CAST(N'2023-03-01T00:00:00.000' AS DateTime), N'02:01 PM', N'Ok', CAST(N'2023-03-01T00:00:00.000' AS DateTime), N'00:09', NULL, NULL, NULL, 1, N'ADS230007')
+GO
+INSERT [dbo].[RFQ] ([Id], [ProjectName], [ProjectCode], [ClientId], [PMId], [Complexity], [Status], [Uid], [CDate], [CTime], [Remarks], [Date], [Time], [ApprovalDate], [ApprovalTime], [CommitmentDate], [CurrencyId], [APSIId]) VALUES (24, N'XYZ''s Production', N'XYZ_PROJECT_2023', 13, 16, 3, 2, 1, CAST(N'2023-03-09T00:00:00.000' AS DateTime), N'03:29 AM', N'OK', CAST(N'2023-03-09T00:00:00.000' AS DateTime), N'03:27', NULL, NULL, NULL, 2, N'ADS230008')
+GO
+SET IDENTITY_INSERT [dbo].[RFQ] OFF
+GO
+SET IDENTITY_INSERT [dbo].[RFQServices] ON 
+GO
+INSERT [dbo].[RFQServices] ([Id], [RFQId], [Sid], [Price], [Unit], [Total], [Remarks], [IsDeleted], [Uid], [Status], [Type], [Complexity], [CDate], [CTime], [StatusDate], [StatusTime], [CommitDate]) VALUES (8, 17, 4, 20, 1, 100, N'SP', 0, 1, 1, N'Project', 4, CAST(N'2023-02-28T00:00:00.000' AS DateTime), N'06:55 PM', NULL, NULL, NULL)
+GO
+INSERT [dbo].[RFQServices] ([Id], [RFQId], [Sid], [Price], [Unit], [Total], [Remarks], [IsDeleted], [Uid], [Status], [Type], [Complexity], [CDate], [CTime], [StatusDate], [StatusTime], [CommitDate]) VALUES (9, 17, 6, 1500, 1, 1500, N'Tabulation', 0, 1, 1, N'Hour', 2, CAST(N'2023-02-28T00:00:00.000' AS DateTime), N'06:55 PM', NULL, NULL, NULL)
+GO
+INSERT [dbo].[RFQServices] ([Id], [RFQId], [Sid], [Price], [Unit], [Total], [Remarks], [IsDeleted], [Uid], [Status], [Type], [Complexity], [CDate], [CTime], [StatusDate], [StatusTime], [CommitDate]) VALUES (10, 17, 11, 0.9, 150, 135, N'Translation', 0, 1, 3, N'Hour', 5, CAST(N'2023-02-28T00:00:00.000' AS DateTime), N'06:55 PM', CAST(N'2023-03-03T00:00:00.000' AS DateTime), N'13:23', NULL)
+GO
+INSERT [dbo].[RFQServices] ([Id], [RFQId], [Sid], [Price], [Unit], [Total], [Remarks], [IsDeleted], [Uid], [Status], [Type], [Complexity], [CDate], [CTime], [StatusDate], [StatusTime], [CommitDate]) VALUES (11, 18, 13, 10, 2, 20, N'OK', 0, 1, 1, N'Hour', 4, CAST(N'2023-03-01T00:00:00.000' AS DateTime), N'01:50 PM', NULL, NULL, NULL)
+GO
+INSERT [dbo].[RFQServices] ([Id], [RFQId], [Sid], [Price], [Unit], [Total], [Remarks], [IsDeleted], [Uid], [Status], [Type], [Complexity], [CDate], [CTime], [StatusDate], [StatusTime], [CommitDate]) VALUES (12, 19, 6, 100, 2, 200, N'Tabulation', 0, 1, 1, N'Project', 2, CAST(N'2023-03-01T00:00:00.000' AS DateTime), N'01:54 PM', NULL, NULL, NULL)
+GO
+INSERT [dbo].[RFQServices] ([Id], [RFQId], [Sid], [Price], [Unit], [Total], [Remarks], [IsDeleted], [Uid], [Status], [Type], [Complexity], [CDate], [CTime], [StatusDate], [StatusTime], [CommitDate]) VALUES (13, 20, 12, 1, 1, 1, N'L.O.', 0, 1, 1, N'Project', 4, CAST(N'2023-03-01T00:00:00.000' AS DateTime), N'01:55 PM', NULL, NULL, NULL)
+GO
+INSERT [dbo].[RFQServices] ([Id], [RFQId], [Sid], [Price], [Unit], [Total], [Remarks], [IsDeleted], [Uid], [Status], [Type], [Complexity], [CDate], [CTime], [StatusDate], [StatusTime], [CommitDate]) VALUES (14, 21, 13, 9, 1, 9, N'm', 0, 1, 2, N'Project', 1, CAST(N'2023-03-01T00:00:00.000' AS DateTime), N'01:57 PM', CAST(N'2023-03-21T00:00:00.000' AS DateTime), N'16:00', CAST(N'2023-03-21T00:00:00.000' AS DateTime))
+GO
+INSERT [dbo].[RFQServices] ([Id], [RFQId], [Sid], [Price], [Unit], [Total], [Remarks], [IsDeleted], [Uid], [Status], [Type], [Complexity], [CDate], [CTime], [StatusDate], [StatusTime], [CommitDate]) VALUES (15, 22, 13, 8, 1, 8, N'8', 0, 1, 1, N'Project', 1, CAST(N'2023-03-01T00:00:00.000' AS DateTime), N'01:59 PM', NULL, NULL, NULL)
+GO
+INSERT [dbo].[RFQServices] ([Id], [RFQId], [Sid], [Price], [Unit], [Total], [Remarks], [IsDeleted], [Uid], [Status], [Type], [Complexity], [CDate], [CTime], [StatusDate], [StatusTime], [CommitDate]) VALUES (16, 23, 12, 8, 2, 16, N'Language Overlay', 0, 1, 1, N'Hour', 4, CAST(N'2023-03-01T00:00:00.000' AS DateTime), N'02:01 PM', NULL, NULL, NULL)
+GO
+INSERT [dbo].[RFQServices] ([Id], [RFQId], [Sid], [Price], [Unit], [Total], [Remarks], [IsDeleted], [Uid], [Status], [Type], [Complexity], [CDate], [CTime], [StatusDate], [StatusTime], [CommitDate]) VALUES (17, 23, 8, 5000, 1, 5000, N'O-E Coding', 0, 1, 1, N'Project', 3, CAST(N'2023-03-01T00:00:00.000' AS DateTime), N'02:01 PM', NULL, NULL, NULL)
+GO
+INSERT [dbo].[RFQServices] ([Id], [RFQId], [Sid], [Price], [Unit], [Total], [Remarks], [IsDeleted], [Uid], [Status], [Type], [Complexity], [CDate], [CTime], [StatusDate], [StatusTime], [CommitDate]) VALUES (18, 20, 9, 1000, 1, 1000, N'Hosting', 0, 1, 1, N'Hour', 1, CAST(N'2023-03-09T01:35:10.663' AS DateTime), NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[RFQServices] ([Id], [RFQId], [Sid], [Price], [Unit], [Total], [Remarks], [IsDeleted], [Uid], [Status], [Type], [Complexity], [CDate], [CTime], [StatusDate], [StatusTime], [CommitDate]) VALUES (19, 23, 11, 200, 10, 2000, N'Translation', 0, 1, 1, N'Project', 3, CAST(N'2023-03-09T03:08:03.930' AS DateTime), NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[RFQServices] ([Id], [RFQId], [Sid], [Price], [Unit], [Total], [Remarks], [IsDeleted], [Uid], [Status], [Type], [Complexity], [CDate], [CTime], [StatusDate], [StatusTime], [CommitDate]) VALUES (20, 24, 13, 75, 3, 225, N'Dashboard', 0, 1, 2, N'Project', 3, CAST(N'2023-03-09T00:00:00.000' AS DateTime), N'03:29 AM', CAST(N'2023-03-14T00:00:00.000' AS DateTime), N'14:15', CAST(N'2023-03-14T00:00:00.000' AS DateTime))
+GO
+INSERT [dbo].[RFQServices] ([Id], [RFQId], [Sid], [Price], [Unit], [Total], [Remarks], [IsDeleted], [Uid], [Status], [Type], [Complexity], [CDate], [CTime], [StatusDate], [StatusTime], [CommitDate]) VALUES (21, 24, 10, 10.5, 200, 2100, N'Sample Services', 0, 1, 2, N'Hour', 2, CAST(N'2023-03-09T00:00:00.000' AS DateTime), N'03:29 AM', CAST(N'2023-03-14T00:00:00.000' AS DateTime), N'14:15', CAST(N'2023-03-14T00:00:00.000' AS DateTime))
+GO
+INSERT [dbo].[RFQServices] ([Id], [RFQId], [Sid], [Price], [Unit], [Total], [Remarks], [IsDeleted], [Uid], [Status], [Type], [Complexity], [CDate], [CTime], [StatusDate], [StatusTime], [CommitDate]) VALUES (22, 19, 4, 30, 2, 600, N'SP', 0, 1, 4, N'Hour', 4, CAST(N'2023-03-09T16:40:07.887' AS DateTime), NULL, CAST(N'2023-03-09T00:00:00.000' AS DateTime), N'17:08', NULL)
+GO
+INSERT [dbo].[RFQServices] ([Id], [RFQId], [Sid], [Price], [Unit], [Total], [Remarks], [IsDeleted], [Uid], [Status], [Type], [Complexity], [CDate], [CTime], [StatusDate], [StatusTime], [CommitDate]) VALUES (23, 19, 13, 25, 5, 125, N'Dashboard', 0, 1, 1, N'Project', 5, CAST(N'2023-03-09T16:42:11.770' AS DateTime), NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[RFQServices] ([Id], [RFQId], [Sid], [Price], [Unit], [Total], [Remarks], [IsDeleted], [Uid], [Status], [Type], [Complexity], [CDate], [CTime], [StatusDate], [StatusTime], [CommitDate]) VALUES (24, 19, 5, 200, 10, 2000, N'DV', 0, 1, 1, N'Hour', 3, CAST(N'2023-03-09T17:09:19.800' AS DateTime), NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[RFQServices] ([Id], [RFQId], [Sid], [Price], [Unit], [Total], [Remarks], [IsDeleted], [Uid], [Status], [Type], [Complexity], [CDate], [CTime], [StatusDate], [StatusTime], [CommitDate]) VALUES (1018, 24, 9, 10, 10, 100, N'ok', 0, 1, 2, N'Hour', 3, CAST(N'2023-03-10T18:37:27.870' AS DateTime), NULL, CAST(N'2023-03-21T00:00:00.000' AS DateTime), N'15:59', CAST(N'2023-03-21T00:00:00.000' AS DateTime))
+GO
+INSERT [dbo].[RFQServices] ([Id], [RFQId], [Sid], [Price], [Unit], [Total], [Remarks], [IsDeleted], [Uid], [Status], [Type], [Complexity], [CDate], [CTime], [StatusDate], [StatusTime], [CommitDate]) VALUES (1019, 24, 12, 100, 1, 100, N'LO', 0, 1, 2, N'Project', 1, CAST(N'2023-03-17T15:40:05.803' AS DateTime), NULL, CAST(N'2023-03-17T00:00:00.000' AS DateTime), N'15:39', CAST(N'2023-04-09T00:00:00.000' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[RFQServices] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Service] ON 
+GO
+INSERT [dbo].[Service] ([Id], [Name], [Status], [Uid], [Did]) VALUES (1, N'Test', 1, 1, 8)
+GO
+INSERT [dbo].[Service] ([Id], [Name], [Status], [Uid], [Did]) VALUES (2, N'M', 1, 1, 1)
+GO
+INSERT [dbo].[Service] ([Id], [Name], [Status], [Uid], [Did]) VALUES (4, N'Survey Programming', 1, 1, 4)
+GO
+INSERT [dbo].[Service] ([Id], [Name], [Status], [Uid], [Did]) VALUES (5, N'Data Validation', 1, 1, 15)
+GO
+INSERT [dbo].[Service] ([Id], [Name], [Status], [Uid], [Did]) VALUES (6, N'Tabulation', 1, 1, 15)
+GO
+INSERT [dbo].[Service] ([Id], [Name], [Status], [Uid], [Did]) VALUES (7, N'Charting', 1, 1, 15)
+GO
+INSERT [dbo].[Service] ([Id], [Name], [Status], [Uid], [Did]) VALUES (8, N'Open-End Coding', 1, 1, 15)
+GO
+INSERT [dbo].[Service] ([Id], [Name], [Status], [Uid], [Did]) VALUES (9, N'Hosting', 1, 1, 4)
+GO
+INSERT [dbo].[Service] ([Id], [Name], [Status], [Uid], [Did]) VALUES (10, N'Sample Services', 1, 1, 5)
+GO
+INSERT [dbo].[Service] ([Id], [Name], [Status], [Uid], [Did]) VALUES (11, N'Translation', 1, 1, 4)
+GO
+INSERT [dbo].[Service] ([Id], [Name], [Status], [Uid], [Did]) VALUES (12, N'Language Overlay', 1, 1, 4)
+GO
+INSERT [dbo].[Service] ([Id], [Name], [Status], [Uid], [Did]) VALUES (13, N'Dashboard', 1, 1, 15)
+GO
+SET IDENTITY_INSERT [dbo].[Service] OFF
+GO
+SET IDENTITY_INSERT [dbo].[SubService] ON 
+GO
+INSERT [dbo].[SubService] ([Id], [Name], [Sid], [Billable], [Status], [Uid]) VALUES (3, N'Test', 1, 1, 1, 1)
+GO
+SET IDENTITY_INSERT [dbo].[SubService] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Users] ON 
+GO
+INSERT [dbo].[Users] ([Id], [Name], [EmpCode], [Mobile], [Email], [Username], [Password], [Type], [Status], [EntryDate], [DesignationId], [DepartmentId], [Division]) VALUES (1, N'Test', N'122', N'1234567890', N'test@gmail.com', N'test', N'test', 1, 1, CAST(N'2023-01-29T13:44:41.000' AS DateTime), 1, 15, 2)
+GO
+INSERT [dbo].[Users] ([Id], [Name], [EmpCode], [Mobile], [Email], [Username], [Password], [Type], [Status], [EntryDate], [DesignationId], [DepartmentId], [Division]) VALUES (6, N'AA', N'123', N'22', N'dd@gmail.com', N'aa', N'aa', 2, 1, CAST(N'2023-02-07T00:00:00.000' AS DateTime), 1, 15, 0)
+GO
+INSERT [dbo].[Users] ([Id], [Name], [EmpCode], [Mobile], [Email], [Username], [Password], [Type], [Status], [EntryDate], [DesignationId], [DepartmentId], [Division]) VALUES (9, N'Aman', N'1234', N'000', N'aman@gmail.com', N'aman', N'aman', 2, 1, CAST(N'2023-03-02T00:00:00.000' AS DateTime), 3, 15, 0)
+GO
+SET IDENTITY_INSERT [dbo].[Users] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Vendor] ON 
+GO
+INSERT [dbo].[Vendor] ([Id], [Name], [Code], [Address], [Pincode], [CountryId], [GSTNo], [Remarks], [Status], [CDate]) VALUES (1, N'TESTING', N'kk', N'l', NULL, 3, NULL, N'kkk', 1, CAST(N'2023-02-16T00:00:00.000' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[Vendor] OFF
+GO
+SET IDENTITY_INSERT [dbo].[VendorContacts] ON 
+GO
+INSERT [dbo].[VendorContacts] ([Id], [Name], [Mobile], [Email], [AltMobile], [Designation], [VendorId], [Status], [CDate], [Deleted]) VALUES (1, N'k', N'88', N'k@gmail.com', N'8', N'k', 1, 1, CAST(N'2023-02-16T00:00:00.000' AS DateTime), 0)
+GO
+INSERT [dbo].[VendorContacts] ([Id], [Name], [Mobile], [Email], [AltMobile], [Designation], [VendorId], [Status], [CDate], [Deleted]) VALUES (3, N'sdlkn', N'djbjd', N'dcdkjd@gmail.com', N'dsbkj', N'd', 1, 1, CAST(N'2023-02-20T18:10:35.257' AS DateTime), 1)
+GO
+SET IDENTITY_INSERT [dbo].[VendorContacts] OFF
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [UQ__Users__536C85E44B6D2860]    Script Date: 27-03-2023 01:41:50 PM ******/
+ALTER TABLE [dbo].[Users] ADD UNIQUE NONCLUSTERED 
+(
+	[Username] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [UQ__Users__6FAE0782A513B0EC]    Script Date: 27-03-2023 01:41:50 PM ******/
+ALTER TABLE [dbo].[Users] ADD UNIQUE NONCLUSTERED 
+(
+	[Mobile] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [UQ__Users__7DA847CA055C50CD]    Script Date: 27-03-2023 01:41:50 PM ******/
+ALTER TABLE [dbo].[Users] ADD UNIQUE NONCLUSTERED 
+(
+	[EmpCode] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [UQ__Users__A9D105344F20B5C9]    Script Date: 27-03-2023 01:41:50 PM ******/
+ALTER TABLE [dbo].[Users] ADD UNIQUE NONCLUSTERED 
+(
+	[Email] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[AllotedDepartment]  WITH CHECK ADD FOREIGN KEY([Did])
+REFERENCES [dbo].[Department] ([Id])
+GO
+ALTER TABLE [dbo].[AllotedDepartment]  WITH CHECK ADD FOREIGN KEY([Uid])
+REFERENCES [dbo].[Users] ([Id])
+GO
+ALTER TABLE [dbo].[Client]  WITH CHECK ADD FOREIGN KEY([CountryId])
+REFERENCES [dbo].[Country] ([Id])
+GO
+ALTER TABLE [dbo].[ClientContacts]  WITH CHECK ADD FOREIGN KEY([ClientId])
+REFERENCES [dbo].[Client] ([Id])
+GO
+ALTER TABLE [dbo].[MenuPrivilege]  WITH CHECK ADD FOREIGN KEY([Uid])
+REFERENCES [dbo].[Users] ([Id])
+GO
+ALTER TABLE [dbo].[Project]  WITH CHECK ADD FOREIGN KEY([RFQID])
+REFERENCES [dbo].[RFQ] ([Id])
+GO
+ALTER TABLE [dbo].[ProjectServices]  WITH CHECK ADD FOREIGN KEY([Pid])
+REFERENCES [dbo].[Project] ([Id])
+GO
+ALTER TABLE [dbo].[RFQ]  WITH CHECK ADD FOREIGN KEY([ClientId])
+REFERENCES [dbo].[Client] ([Id])
+GO
+ALTER TABLE [dbo].[RFQ]  WITH CHECK ADD FOREIGN KEY([CurrencyId])
+REFERENCES [dbo].[Currency] ([Id])
+GO
+ALTER TABLE [dbo].[RFQ]  WITH CHECK ADD FOREIGN KEY([PMId])
+REFERENCES [dbo].[ClientContacts] ([Id])
+GO
+ALTER TABLE [dbo].[RFQServices]  WITH CHECK ADD FOREIGN KEY([RFQId])
+REFERENCES [dbo].[RFQ] ([Id])
+GO
+ALTER TABLE [dbo].[RFQServices]  WITH CHECK ADD FOREIGN KEY([Sid])
+REFERENCES [dbo].[Service] ([Id])
+GO
+ALTER TABLE [dbo].[Service]  WITH CHECK ADD FOREIGN KEY([Did])
+REFERENCES [dbo].[Department] ([Id])
+GO
+ALTER TABLE [dbo].[SubService]  WITH CHECK ADD FOREIGN KEY([Sid])
+REFERENCES [dbo].[Service] ([Id])
+GO
+ALTER TABLE [dbo].[Users]  WITH CHECK ADD FOREIGN KEY([DepartmentId])
+REFERENCES [dbo].[Department] ([Id])
+GO
+ALTER TABLE [dbo].[Users]  WITH CHECK ADD FOREIGN KEY([DesignationId])
+REFERENCES [dbo].[Designation] ([Id])
+GO
+ALTER TABLE [dbo].[Vendor]  WITH CHECK ADD FOREIGN KEY([CountryId])
+REFERENCES [dbo].[Country] ([Id])
+GO
+ALTER TABLE [dbo].[VendorContacts]  WITH CHECK ADD FOREIGN KEY([VendorId])
+REFERENCES [dbo].[Vendor] ([Id])
+GO
+/****** Object:  StoredProcedure [dbo].[AddEditProjectServices]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+Create proc [dbo].[AddEditProjectServices](@Id int,@Price float,@Unit float,@Total float,
+@Status int,@Type nvarchar(20),@Complexity int, @StatusDate Datetime,@StatusTime nvarchar(50),@CommitDate Datetime,
+@Remarks nvarchar(max), @Uid int,@Pid int =null,@Sid int=null)
+as
+BEGIN
+if(@Id=0)
+begin
+ insert into ProjectServices values(@Pid,@Sid,@Price,@Unit,@Total,@Status,@Type,@Complexity,@StatusDate,@StatusTime,@CommitDate,@Remarks,@Uid,GETDATE())
+end
+else
+begin
+update ProjectServices set Price=@Price,Unit=@Unit,Total=@Total,Status=@Status,Type=@Type,Complexity=@Complexity,StatusDate=@StatusDate,
+StatusTime=@StatusTime,CommitDate=@CommitDate,Remarks=@Remarks where Id=@Id
+end
+END
+GO
+/****** Object:  StoredProcedure [dbo].[AddUpdateClientContact]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE proc [dbo].[AddUpdateClientContact](@Id int, @Name NVARCHAR(200), @Email NVARCHAR(500),  
+@ClientId int,@Status Bit, @AltMobile NVARCHAR(50)=null, @Mobile NVARCHAR(50) = null, @Designation NVARCHAR(100) = null)  
+as  
+BEGIN  
+ if(@Id=0)  
+ BEGIN  
+  Insert into ClientContacts values(@Name,@Mobile,@Email,@AltMobile,@Designation,@ClientId,@Status,GETDATE(),0)  
+ END  
+ else  
+ BEGIN  
+  Update ClientContacts set Name=@Name,Mobile=@Mobile,Email=@Email,AltMobile=@AltMobile,Designation=@Designation,Status=@Status,ClientId=@ClientId,Deleted=0 where Id=@Id  
+ END  
+END
+GO
+/****** Object:  StoredProcedure [dbo].[AddUpdateVendorContact]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE proc [dbo].[AddUpdateVendorContact](@Id int, @Name NVARCHAR(200), @Mobile NVARCHAR(50), @Email NVARCHAR(500), @Designation NVARCHAR(100),
+@VId int,@Status Bit, @AltMobile NVARCHAR(50)=null)
+as
+BEGIN
+ if(@Id=0)
+ BEGIN
+  Insert into VendorContacts values(@Name,@Mobile,@Email,@AltMobile,@Designation,@VId,@Status,GETDATE(),0)
+ END
+ else
+ BEGIN
+  Update VendorContacts set Name=@Name,Mobile=@Mobile,Email=@Email,AltMobile=@AltMobile,Designation=@Designation,Status=@Status,VendorId=@VId,Deleted=0 where Id=@Id
+ END
+END
+GO
+/****** Object:  StoredProcedure [dbo].[AllotDepartment]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE proc [dbo].[AllotDepartment](@way int, @UType int,@Uid int, @Did int, @Allotedby int)
+AS
+BEGIN
+IF(@way=0)
+ delete from AllotedDepartment where Uid=@Uid and Did=@Did
+ELSE IF(@way=1)
+BEGIN
+ IF(@UType=1)
+  Insert into AllotedDepartment values(@Uid,@Did,@Allotedby)
+ ELSE
+  BEGIN
+   Delete from AllotedDepartment where Uid=@Uid
+   Insert into AllotedDepartment values(@Uid,@Did,@Allotedby)
+  END
+END
+ELSE IF(@way=3)
+BEGIN
+ DELETE FROM AllotedDepartment WHERE Uid=@Uid
+ INSERT INTO AllotedDepartment Select @Uid,Id,@Allotedby from Department where Status=1
+END
+END
+GO
+/****** Object:  StoredProcedure [dbo].[AuthenticateUser]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[AuthenticateUser](@Username NVARCHAR(500), @Password NVARCHAR(500))  
+AS  
+BEGIN
+ DECLARE @Id INT 
+ Select @Id=Id from Users where (Username=@Username COLLATE SQL_Latin1_General_CP1_CS_AS or Email=@Username COLLATE SQL_Latin1_General_CP1_CS_AS)  
+ and Password=@Password COLLATE SQL_Latin1_General_CP1_CS_AS and Status=1  
+ Select ISNULL(@Id,0) as Id
+END
+GO
+/****** Object:  StoredProcedure [dbo].[ChangePassword]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create proc [dbo].[ChangePassword](@Id int, @Password nvarchar(200),@NewPassword nvarchar(200))
+as
+BEGIN
+  Declare @res nvarchar(1) = '2'
+  If Exists(Select Id from Users where Id=@Id and Password=@Password COLLATE SQL_Latin1_General_CP1_CS_AS)
+  BEGIN
+	Update Users set Password=@NewPassword where Id=@Id
+	set @res='1'
+  END
+  select @res as Result
+END
+GO
+/****** Object:  StoredProcedure [dbo].[CheckExist]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE proc [dbo].[CheckExist](@Col nvarchar(200),@Table nvarchar(200),@Val nvarchar(200),@Id int)
+as
+BEGIN
+ Declare @qry nvarchar(500)
+ if(@Id = 0)
+ begin
+   set @qry = 'Select Count(Id) as Total from ' + @Table + ' where ' + @Col + '=''' + @Val + ''''
+ end
+ else
+ begin
+ set @qry = 'Select Count(Id) as Total from ' + @Table + ' where ' + @Col + '=''' + @Val + ''' and Id!=' + Cast(@Id as varchar)
+ end
+ exec sp_executesql @qry
+END
+GO
+/****** Object:  StoredProcedure [dbo].[CountWonServicesofRFQ]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE proc [dbo].[CountWonServicesofRFQ](@RFQId int)
+as
+begin
+select count(Id) as Total from RFQServices where RFQId=@RFQId and Status=2 and IsDeleted=0
+end
+GO
+/****** Object:  StoredProcedure [dbo].[CreateProject]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[CreateProject](@RFQId int,@Uid int,@Remarks nvarchar(max)=null)
+as
+begin
+insert into Project values(@RFQId,@Remarks,@Uid,GETDATE())
+select top 1 Id from Project order by Id desc
+end
+GO
+/****** Object:  StoredProcedure [dbo].[DeleteAllPersons]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create proc [dbo].[DeleteAllPersons](@Id int, @Table nvarchar(100))
+as
+begin
+if(@Table='Client')
+begin
+ delete from ClientContacts where ClientId=@Id
+ delete from Client where Id=@Id
+end
+else if(@Table='Vendor')
+begin
+ delete from VendorContacts where VendorId=@Id
+ delete from Vendor where Id=@Id
+end
+end
+GO
+/****** Object:  StoredProcedure [dbo].[DeleteContactPerson]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create proc [dbo].[DeleteContactPerson](@id int)
+as
+update ClientContacts set Deleted=1 where Id=@id
+GO
+/****** Object:  StoredProcedure [dbo].[DeleteRFQAndService]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CReate proc [dbo].[DeleteRFQAndService](@Id int)
+as
+begin
+ delete from RFQServices where RFQId=@Id
+ delete from RFQ where Id=@Id
+end
+GO
+/****** Object:  StoredProcedure [dbo].[DeleteRow]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[DeleteRow](@Id int, @TableName nvarchar(500))
+as
+begin
+ Declare @qry nvarchar(500)
+ set @qry = 'DELETE FROM ' + @TableName + ' WHERE Id=' + CAST(@Id as nvarchar)
+ Execute sp_executesql @qry
+end
+GO
+/****** Object:  StoredProcedure [dbo].[DeleteVendorPerson]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create proc [dbo].[DeleteVendorPerson](@id int)
+as
+update VendorContacts set Deleted=1 where Id=@id
+GO
+/****** Object:  StoredProcedure [dbo].[FetchActiveServices]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE proc [dbo].[FetchActiveServices]
+as
+begin
+Select Id,Name from Service where Status=1 order by Name Asc
+end
+GO
+/****** Object:  StoredProcedure [dbo].[GetActiveCountries]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE proc [dbo].[GetActiveCountries]
+as
+Select * from Country where Status=1 order by Name Asc
+GO
+/****** Object:  StoredProcedure [dbo].[GetAllClients]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[GetAllClients]
+as
+Select Id,Name,Code,CountryId,Status from Client  order by Name
+GO
+/****** Object:  StoredProcedure [dbo].[GetAllDepartments]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE proc [dbo].[GetAllDepartments]
+as
+Select Id,Name,DepCode from Department where Status=1 order by Name Asc
+GO
+/****** Object:  StoredProcedure [dbo].[GetClientContactsbyId]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE proc [dbo].[GetClientContactsbyId](@ClientId int)
+as
+begin
+select * from ClientContacts where ClientId=@ClientId and Deleted=0
+end
+GO
+/****** Object:  StoredProcedure [dbo].[GetCurrency]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+Create proc [dbo].[GetCurrency]
+as
+select * from Currency where Status=1
+GO
+/****** Object:  StoredProcedure [dbo].[GetCurrencySymbol]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+Create proc [dbo].[GetCurrencySymbol](@id int)
+as
+select Symbol from Currency where Id=@id
+GO
+/****** Object:  StoredProcedure [dbo].[GetData]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROC [dbo].[GetData](@Uid INT, @Level INT,@Columns NVARCHAR(500), @Table NVARCHAR(100), @Rows INT, @Offset INT, @OrderByCol NVARCHAR(100), 
+@OrderByType NVARCHAR(10), @GlobalCols NVARCHAR(500), @GlobalVal NVARCHAR(50) = '', @DateName NVARCHAR(50) = '', @FromDate DATETIME = '',
+@ToDate DATETIME = '', @Filter1 NVARCHAR(50) = '', @FilterVal1 NVARCHAR(50) = '', @Filter2 NVARCHAR(50) = '', @FilterVal2 NVARCHAR(50) = '',
+@Filter3 NVARCHAR(50) = '', @FilterVal3 NVARCHAR(50) = '')
+AS
+BEGIN
+  DECLARE @TableQry NVARCHAR(MAX), @ConditionQry NVARCHAR(MAX) = '', @OffsetQry NVARCHAR(MAX) = '', @FinalQry NVARCHAR(MAX) = '',
+  @TotalQry NVARCHAR(MAX) = '', @FinalTotalQry NVARCHAR(MAX) = '',@LevelQry Nvarchar(MAX) = '',@AllUids Nvarchar(MAX)
+
+  SET @TableQry = 'SELECT ' + @Columns + ' FROM ' + @Table
+  SET @TotalQry = 'SELECT COUNT(Id) AS Total from ' + @Table
+  SET @OffsetQry = ' ORDER BY ' + @OrderByCol + ' ' + @OrderByType + ' OFFSET ' + CAST(@Offset AS nvarchar) + ' ROWS FETCH NEXT ' +
+				   CAST(@Rows AS nvarchar) + ' ROWS ONLY'
+  
+  IF(@Level = 1)
+  BEGIN
+   with CTE as(
+	Select Distinct Uid from AllotedDepartment where Did in (Select Did from AllotedDepartment where Uid=1)
+   )
+   Select @AllUids=STRING_AGG(Uid,',') from CTE
+   Set @LevelQry = 'Uid in (' + @AllUids + ')'
+  END
+  ELSE IF(@Level = 2)
+  BEGIN
+   SET @LevelQry= 'Uid=' + Cast(@Uid as varchar)
+  END
+
+  IF(@Filter1 = '')
+  BEGIN
+    IF(@DateName = '' OR (@DateName != '' AND (@FromDate = '' OR @ToDate = '')))
+	BEGIN
+	  IF(@GlobalVal != '')
+	  BEGIN
+		IF(@Level = 1 OR @Level = 2)
+	     SET @ConditionQry = ' WHERE CONCAT(' + @GlobalCols + ') LIKE ''%' + @GlobalVal + '%'' AND ' + @LevelQry
+		ELSE
+		 SET @ConditionQry = ' WHERE CONCAT(' + @GlobalCols + ') LIKE ''%' + @GlobalVal + '%'''
+	  END
+	  ELSE
+	  BEGIN
+	  IF(@Level = 1 OR @Level = 2)
+	   SET @ConditionQry = ' WHERE ' + @LevelQry
+	  END
+	END
+	ELSE IF(@DateName != '' AND @FromDate != '' AND @ToDate != '')
+	BEGIN
+	  IF(@GlobalVal = '')
+	  BEGIN
+	   IF(@Level = 1 OR @Level = 2)
+	    SET @ConditionQry = ' WHERE CAST(' + @DateName + ' as date) BETWEEN ''' + CAST(CAST(@FromDate AS date) AS nvarchar) + ''' AND ''' + CAST(CAST(@ToDate AS date) AS nvarchar) + ''' AND ' + @LevelQry
+	   ELSE
+	    SET @ConditionQry = ' WHERE CAST(' + @DateName + ' as date) BETWEEN ''' + CAST(CAST(@FromDate AS date) AS nvarchar) + ''' AND ''' + CAST(CAST(@ToDate AS date) AS nvarchar) + ''''
+	  END
+	  ELSE
+	  BEGIN
+	   IF(@Level = 1 OR @Level = 2)
+	    SET @ConditionQry = ' WHERE CAST(' + @DateName + ' as date) BETWEEN ''' + CAST(CAST(@FromDate AS date) AS nvarchar) + ''' AND ''' + CAST(CAST(@ToDate AS date) AS nvarchar) + ''' AND CONCAT(' + @GlobalCols + ') LIKE ''%' + @GlobalVal + '%'' AND ' + @LevelQry 
+	   ELSE
+	    SET @ConditionQry = ' WHERE CAST(' + @DateName + ' as date) BETWEEN ''' + CAST(CAST(@FromDate AS date) AS nvarchar) + ''' AND ''' + CAST(CAST(@ToDate AS date) AS nvarchar) + ''' AND CONCAT(' + @GlobalCols + ') LIKE ''%' + @GlobalVal + '%''' 
+	  END
+	END
+  END
+  ELSE IF(@Filter1 != '' AND @FilterVal1 != '')
+  BEGIN
+    IF(@Filter2 = '')
+	BEGIN
+	  IF(@DateName = '' OR (@DateName != '' AND (@FromDate = '' OR @ToDate = '')))
+	  BEGIN
+	    IF(@GlobalVal = '')
+		BEGIN
+		 IF(@Level = 1 OR @Level = 2)
+		  SET @ConditionQry = ' WHERE ' + @Filter1 + '=''' + @FilterVal1 + ''' AND ' + @LevelQry
+		 ELSE
+		  SET @ConditionQry = ' WHERE ' + @Filter1 + '=''' + @FilterVal1 + ''''
+		END
+		ELSE IF(@GlobalVal != '')
+		BEGIN
+		 IF(@Level = 1 OR @Level = 2)
+		  SET @ConditionQry = ' WHERE ' + @Filter1 + '=''' + @FilterVal1 + ''' AND CONCAT(' + @GlobalCols + ') LIKE ''%' + @GlobalVal + '%'' AND ' + @LevelQry 
+		 ELSE
+		  SET @ConditionQry = ' WHERE ' + @Filter1 + '=''' + @FilterVal1 + ''' AND CONCAT(' + @GlobalCols + ') LIKE ''%' + @GlobalVal + '%''' 
+		END
+	  END
+	  ELSE IF(@DateName != '' AND @FromDate != '' AND @ToDate != '')
+	  BEGIN
+	    IF(@GlobalVal = '')
+		BEGIN
+		 IF(@Level = 1 OR @Level = 2)
+		  SET @ConditionQry = ' WHERE ' + @Filter1 + '=''' + @FilterVal1 + ''' AND CAST(' + @DateName + ' as date) BETWEEN ''' + CAST(CAST(@FromDate AS date) AS nvarchar) + ''' AND ''' + CAST(CAST(@ToDate AS date) AS nvarchar) + ''' AND ' + @LevelQry
+		 ELSE
+		  SET @ConditionQry = ' WHERE ' + @Filter1 + '=''' + @FilterVal1 + ''' AND CAST(' + @DateName + ' as date) BETWEEN ''' + CAST(CAST(@FromDate AS date) AS nvarchar) + ''' AND ''' + CAST(CAST(@ToDate AS date) AS nvarchar) + ''''
+		END
+		ELSE IF(@GlobalVal != '')
+		BEGIN
+		 IF(@Level = 1 OR @Level = 2)
+		  SET @ConditionQry = ' WHERE ' + @Filter1 + '=''' + @FilterVal1 + ''' AND CONCAT(' + @GlobalCols + ') LIKE ''%' + @GlobalVal + '%'' AND CAST(' + @DateName + ' as date) BETWEEN ''' + CAST(CAST(@FromDate AS date) AS nvarchar) + ''' AND ''' + CAST(CAST(@ToDate AS date) AS nvarchar) + ''' AND ' + @LevelQry
+		 ELSE
+		  SET @ConditionQry = ' WHERE ' + @Filter1 + '=''' + @FilterVal1 + ''' AND CONCAT(' + @GlobalCols + ') LIKE ''%' + @GlobalVal + '%'' AND CAST(' + @DateName + ' as date) BETWEEN ''' + CAST(CAST(@FromDate AS date) AS nvarchar) + ''' AND ''' + CAST(CAST(@ToDate AS date) AS nvarchar) + ''''
+		END
+	  END
+	END
+	ELSE IF(@Filter2 != '' AND @FilterVal2 != '')
+	BEGIN
+	  IF(@Filter3 = '')
+	  BEGIN
+	    If(@DateName = '' OR (@DateName != '' AND (@FromDate = '' OR @ToDate = '')))
+		BEGIN
+		  IF(@GlobalVal = '')
+		  BEGIN
+		    IF(@Level = 1 OR @Level = 2)
+			 SET @ConditionQry = ' WHERE ' + @Filter1 + '=''' + @FilterVal1 + ''' AND '  + @Filter2 + '=''' + @FilterVal2 + ''' AND ' + @LevelQry
+			ELSE
+			 SET @ConditionQry = ' WHERE ' + @Filter1 + '=''' + @FilterVal1 + ''' AND '  + @Filter2 + '=''' + @FilterVal2 + ''''
+		  END
+		  ELSE IF(@GlobalVal != '')
+		  BEGIN
+		    IF(@Level = 1 OR @Level = 2)
+			 SET @ConditionQry = ' WHERE ' + @Filter1 + '=''' + @FilterVal1 + ''' AND '  + @Filter2 + '=''' + @FilterVal2 + ''' AND CONCAT(' + @GlobalCols + ') LIKE ''%' + @GlobalVal + '%'' AND ' + @LevelQry
+			ELSE
+			 SET @ConditionQry = ' WHERE ' + @Filter1 + '=''' + @FilterVal1 + ''' AND '  + @Filter2 + '=''' + @FilterVal2 + ''' AND CONCAT(' + @GlobalCols + ') LIKE ''%' + @GlobalVal + '%'''
+		  END
+		END
+		ELSE IF(@DateName != '' AND @FromDate != '' AND @ToDate != '')
+		BEGIN
+		  IF(@GlobalVal = '')
+		  BEGIN
+		    IF(@Level = 1 OR @Level = 2)
+			 SET @ConditionQry = ' WHERE ' + @Filter1 + '=''' + @FilterVal1 + ''' AND '  + @Filter2 + '=''' + @FilterVal2 + ''' AND CAST(' + @DateName + ' as date) BETWEEN ''' + CAST(CAST(@FromDate AS date) AS nvarchar) + ''' AND ''' + CAST(CAST(@ToDate AS date) AS nvarchar) + ''' AND ' + @LevelQry
+			ELSE
+			 SET @ConditionQry = ' WHERE ' + @Filter1 + '=''' + @FilterVal1 + ''' AND '  + @Filter2 + '=''' + @FilterVal2 + ''' AND CAST(' + @DateName + ' as date) BETWEEN ''' + CAST(CAST(@FromDate AS date) AS nvarchar) + ''' AND ''' + CAST(CAST(@ToDate AS date) AS nvarchar) + ''''
+		  END
+		  ELSE IF(@GlobalVal != '')
+		  BEGIN
+		   IF(@Level = 1 OR @Level = 2)
+		    SET @ConditionQry = ' WHERE ' + @Filter1 + '=''' + @FilterVal1 + ''' AND '  + @Filter2 + '=''' + @FilterVal2 + ''' AND CAST(' + @DateName + ' as date) BETWEEN ''' + CAST(CAST(@FromDate AS date) AS nvarchar) + ''' AND ''' + CAST(CAST(@ToDate AS date) AS nvarchar) + ''' AND CONCAT(' + @GlobalCols + ') LIKE ''%' + @GlobalVal + '%'' AND ' + @LevelQry
+		   ELSE
+		    SET @ConditionQry = ' WHERE ' + @Filter1 + '=''' + @FilterVal1 + ''' AND '  + @Filter2 + '=''' + @FilterVal2 + ''' AND CAST(' + @DateName + ' as date) BETWEEN ''' + CAST(CAST(@FromDate AS date) AS nvarchar) + ''' AND ''' + CAST(CAST(@ToDate AS date) AS nvarchar) + ''' AND CONCAT(' + @GlobalCols + ') LIKE ''%' + @GlobalVal + '%'''
+		  END
+		END
+	  END
+	  ELSE IF(@Filter3 != '' AND @FilterVal3 != '')
+	  BEGIN
+	    If(@DateName = '' OR (@DateName != '' AND (@FromDate = '' OR @ToDate = '')))
+		BEGIN
+		  IF(@GlobalVal = '')
+		  BEGIN
+		   IF(@Level = 1 OR @Level = 2)
+		    SET @ConditionQry = ' WHERE ' + @Filter1 + '=''' + @FilterVal1 + ''' AND '  + @Filter2 + '=''' + @FilterVal2 + ''' AND '  + @Filter3 + '=''' + @FilterVal3 + ''' AND ' + @LevelQry
+		   ELSE
+		    SET @ConditionQry = ' WHERE ' + @Filter1 + '=''' + @FilterVal1 + ''' AND '  + @Filter2 + '=''' + @FilterVal2 + ''' AND '  + @Filter3 + '=''' + @FilterVal3 + ''''
+		  END
+		  ELSE IF(@GlobalVal != '')
+		  BEGIN
+		   IF(@Level = 1 OR @Level = 2)
+		    SET @ConditionQry = ' WHERE ' + @Filter1 + '=''' + @FilterVal1 + ''' AND '  + @Filter2 + '=''' + @FilterVal2 + ''' AND '  + @Filter3 + '=''' + @FilterVal3 + ''' AND CONCAT(' + @GlobalCols + ') LIKE ''%' + @GlobalVal + '%'' AND ' + @LevelQry
+		   ELSE
+		    SET @ConditionQry = ' WHERE ' + @Filter1 + '=''' + @FilterVal1 + ''' AND '  + @Filter2 + '=''' + @FilterVal2 + ''' AND '  + @Filter3 + '=''' + @FilterVal3 + ''' AND CONCAT(' + @GlobalCols + ') LIKE ''%' + @GlobalVal + '%'''
+		  END
+		END
+		ELSE IF(@DateName != '' AND @FromDate != '' AND @ToDate != '')
+		BEGIN
+		  IF(@GlobalVal = '')
+		  BEGIN
+		   IF(@Level = 1 OR @Level = 2)
+		    SET @ConditionQry = ' WHERE ' + @Filter1 + '=''' + @FilterVal1 + ''' AND '  + @Filter2 + '=''' + @FilterVal2 + ''' AND '  + @Filter3 + '=''' + @FilterVal3 + ''' AND CAST(' + @DateName + ' as date) BETWEEN ''' + CAST(CAST(@FromDate AS date) AS nvarchar) + ''' AND ''' + CAST(CAST(@ToDate AS date) AS nvarchar) + ''' AND ' + @LevelQry
+		   ELSE
+		    SET @ConditionQry = ' WHERE ' + @Filter1 + '=''' + @FilterVal1 + ''' AND '  + @Filter2 + '=''' + @FilterVal2 + ''' AND '  + @Filter3 + '=''' + @FilterVal3 + ''' AND CAST(' + @DateName + ' as date) BETWEEN ''' + CAST(CAST(@FromDate AS date) AS nvarchar) + ''' AND ''' + CAST(CAST(@ToDate AS date) AS nvarchar) + ''''
+		  END
+		  ELSE IF(@GlobalVal != '')
+		  BEGIN
+		   IF(@Level = 1 OR @Level = 2)
+		    SET @ConditionQry = ' WHERE ' + @Filter1 + '=''' + @FilterVal1 + ''' AND '  + @Filter2 + '=''' + @FilterVal2 + ''' AND '  + @Filter3 + '=''' + @FilterVal3 + ''' AND CAST(' + @DateName + ' as date) BETWEEN ''' + CAST(CAST(@FromDate AS date) AS nvarchar) + ''' AND ''' + CAST(CAST(@ToDate AS date) AS nvarchar) + ''' AND CONCAT(' + @GlobalCols + ') LIKE ''%' + @GlobalVal + '%'' AND ' + @LevelQry
+		   ELSE
+		    SET @ConditionQry = ' WHERE ' + @Filter1 + '=''' + @FilterVal1 + ''' AND '  + @Filter2 + '=''' + @FilterVal2 + ''' AND '  + @Filter3 + '=''' + @FilterVal3 + ''' AND CAST(' + @DateName + ' as date) BETWEEN ''' + CAST(CAST(@FromDate AS date) AS nvarchar) + ''' AND ''' + CAST(CAST(@ToDate AS date) AS nvarchar) + ''' AND CONCAT(' + @GlobalCols + ') LIKE ''%' + @GlobalVal + '%'''
+		  END
+		END
+	  END
+	END
+  END
+  SET @FinalQry = @TableQry + @ConditionQry + @OffsetQry
+  SET @FinalTotalQry = @TotalQry + @ConditionQry
+
+  --print @FinalQry
+  --print @FinalTotalQry
+  EXECUTE sp_executesql @FinalQry
+  EXECUTE sp_executesql @FinalTotalQry
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetDesignations]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[GetDesignations]
+as
+select * from Designation where Status=1 order by Name Asc
+GO
+/****** Object:  StoredProcedure [dbo].[GetEmployeeByDept]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE proc [dbo].[GetEmployeeByDept](@Did int,@Uid int)
+as
+begin
+Select Id,Name,EmpCode,Mobile,Email,Type from Users where DepartmentId=@Did
+end
+GO
+/****** Object:  StoredProcedure [dbo].[GetMaxApsiId]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE proc [dbo].[GetMaxApsiId]  
+as
+begin
+declare @ApsiId nvarchar(100)='ADS0000'
+if exists(select Top 1 Id from RFQ)
+begin
+select  top 1 @ApsiId=APSIId  from RFQ order by Id desc
+end
+select @ApsiId as APSIId
+end
+GO
+/****** Object:  StoredProcedure [dbo].[GetProjectAndServices]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE proc [dbo].[GetProjectAndServices](@Id int,@Status int = null)
+as
+begin
+Select p.Id,p.RFQID,p.Remarks,rfq.ProjectName,rfq.ProjectCode,cn.Name as 'Country',rfq.APSIId,rfq.ClientId,cl.Name as 'Client',cl.Code as 'ClientCode',rfq.PMId,
+cc.Name as 'ProjectManager',cc.Mobile,cc.AltMobile,cc.Email,cc.Designation,rfq.CurrencyId,curr.Name as 'Currency',curr.Symbol as 'CurrencySymbol',p.Uid,p.CDate,
+CONVERT(varchar,p.CDate,106) as 'CreationDate' from Project p
+left join RFQ rfq on p.RFQID=rfq.Id
+left join Client cl on rfq.ClientId=cl.Id
+left join ClientContacts cc on rfq.PMId=cc.Id
+left join Country cn on cl.CountryId=cn.Id
+left join Currency curr on rfq.CurrencyId=curr.Id
+where p.Id=@Id
+
+if(@Status is null)
+begin
+ select p.*,s.Name as 'Service',CONVERT(varchar,p.StatusDate,106) as 'StatDate',CONVERT(varchar,p.CommitDate,106) as 'CommDate',
+ Case when p.Status=0 then 'New' when p.Status=1 then 'In Process' when p.Status=2 then 'Completed' when p.Status=3 then 'Lost'
+  when p.Status=4 then 'Hold' end as 'StatusName'
+ from ProjectServices p 
+ left join Service s on p.Sid=s.Id
+ where p.Pid=@Id
+end
+else
+begin
+ select p.*,s.Name as 'Service',CONVERT(varchar,p.StatusDate,106) as 'StatDate',CONVERT(varchar,p.CommitDate,106) as 'CommDate',
+ Case when p.Status=0 then 'New' when p.Status=1 then 'In Process' when p.Status=2 then 'Completed' when p.Status=3 then 'Lost'
+  when p.Status=4 then 'Hold' end as 'StatusName'
+ from ProjectServices p 
+ left join Service s on p.Sid=s.Id
+ where p.Pid=@Id and p.Status=@Status
+end
+end
+GO
+/****** Object:  StoredProcedure [dbo].[GetProjectId]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+Create Proc [dbo].[GetProjectId](@RFQID int)
+as
+begin
+Select Id from Project where RFQID=@RFQID
+end
+GO
+/****** Object:  StoredProcedure [dbo].[GetProjectWiseUsers]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE proc [dbo].[GetProjectWiseUsers](@Id int)
+as
+begin
+Select STRING_AGG(Uid,',') as Uid from ProjectUsersAssigned where ProjectServiceId=@Id
+end
+GO
+/****** Object:  StoredProcedure [dbo].[GetRFQServicesById]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE proc [dbo].[GetRFQServicesById](@id int, @stat int=null)
+as    
+begin    
+if(@stat is not null)  
+begin  
+Select r.Id,r.RFQId,r.Sid,s.Name as 'Service',r.Price,r.Unit,r.Total,r.Remarks,    
+r.Status,Case when r.Status=0 then 'New' when r.Status=1 then 'Quoted' when r.Status=2 then 'Won' when r.Status=3 then 'Lost' when r.Status=4 then 'Hold' end as StatusName,r.Type,  
+r.Uid,u.Name as 'CreatedBy',r.Complexity,r.CDate,r.CTime,r.StatusDate, CONVERT(varchar,r.StatusDate,106) as 'StatDate',  
+r.StatusTime,r.CommitDate,CONVERT(varchar,r.CommitDate,106) as 'CommDate'  
+from RFQServices r    
+left join Service s on r.Sid=s.Id    
+left join Users u on r.Uid=u.Id  
+where r.IsDeleted=0 and r.RFQId=@id and r.Status=@stat  
+end  
+else  
+begin  
+Select r.Id,r.RFQId,r.Sid,s.Name as 'Service',r.Price,r.Unit,r.Total,r.Remarks,    
+r.Status,Case when r.Status=0 then 'New' when r.Status=1 then 'Quoted' when r.Status=2 then 'Won' when r.Status=3 then 'Lost' when r.Status=4 then 'Hold' end as StatusName,r.Type,  
+r.Uid,u.Name as 'CreatedBy',r.Complexity,r.CDate,r.CTime,r.StatusDate, CONVERT(varchar,r.StatusDate,106) as 'StatDate',  
+r.StatusTime,r.CommitDate,CONVERT(varchar,r.CommitDate,106) as 'CommDate'  
+from RFQServices r    
+left join Service s on r.Sid=s.Id    
+left join Users u on r.Uid=u.Id  
+where r.IsDeleted=0 and r.RFQId=@id  
+end  
+end
+GO
+/****** Object:  StoredProcedure [dbo].[GetServiceNamesByProjectId]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE Proc [dbo].[GetServiceNamesByProjectId](@Pid int)
+as
+begin
+Select ps.Id,ps.Sid,s.Name as 'Service',s.Did,ps.Status,case when ps.Status=0 then 'New' when ps.Status=1 then 'In Process'
+when ps.Status=2 then 'Completed' when ps.Status=3 then 'Lost' when ps.Status=4 then 'Hold' end as 'StatusName'
+from ProjectServices ps
+left join Service s on ps.Sid=s.Id where ps.Pid=@Pid
+end
+GO
+/****** Object:  StoredProcedure [dbo].[GetServices]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE proc [dbo].[GetServices]  
+as  
+Select Id,Name from Service where Status=1 order by Name Asc
+GO
+/****** Object:  StoredProcedure [dbo].[GetSubadminAllotedDept]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+Create proc [dbo].[GetSubadminAllotedDept](@uid int)
+as
+BEGIN
+ Select Did from AllotedDepartment Where Uid=@Uid
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetUserAllotedDepartment]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+Create proc [dbo].[GetUserAllotedDepartment](@Uid int)
+as
+BEGIN
+ Select Did from AllotedDepartment Where Uid=@Uid
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetVendorContactsById]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[GetVendorContactsById](@Id int)
+as
+BEGIN
+ Select * from VendorContacts where Deleted=0 and VendorId=@Id
+END
+GO
+/****** Object:  StoredProcedure [dbo].[LoginUser]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE proc [dbo].[LoginUser](@Username NVARCHAR(500), @Password NVARCHAR(500),@Ip nvarchar(50))
+as
+begin
+DECLARE @Id INT,@LogId int
+ Select @Id=Id from Users where (Username=@Username COLLATE SQL_Latin1_General_CP1_CS_AS or Email=@Username COLLATE SQL_Latin1_General_CP1_CS_AS)  
+ and Password=@Password COLLATE SQL_Latin1_General_CP1_CS_AS and Status=1  
+ if(@Id > 0)
+ begin
+ insert into LoginLogs(Uid,LoginDate,IPAddress) values(@Id,GETDATE(),@Ip)
+ select Top 1 @LogId=Id from LoginLogs where Uid=@Id order by id desc
+ select CAST(@Id as varchar)+'_'+CAST(@LogId as varchar) as Result
+ end
+ else
+ Select 0 as Result
+end
+GO
+/****** Object:  StoredProcedure [dbo].[LogoutUser]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE proc [dbo].[LogoutUser](@Id int,@type int)
+as
+Begin
+ update LoginLogs set LogoutDate=GETDATE(),Type=@type where Id=@Id
+end
+GO
+/****** Object:  StoredProcedure [dbo].[SetMenuPrivilege]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE proc [dbo].[SetMenuPrivilege](@way int, @uid int,@type bit,@menu nvarchar(200)=null,@set nvarchar(200)=null)
+as
+begin
+ if Exists(Select Id from MenuPrivilege where Uid=@uid)
+ begin
+  if(@way = 0)
+  begin
+   declare @qry nvarchar(max)
+   set @qry = 'update MenuPrivilege set ' + @menu + '=' + CAST(@type as varchar) + ' where Uid=' + CAST(@uid as varchar)
+   exec sp_executesql @qry
+  end
+  else
+  begin
+   if(@set = 'Masters')
+   begin
+    update MenuPrivilege set Country=@type, Department=@type, Users=@type,Client=@type,Vendor=@type,Service=@type where Uid=@uid
+   end
+   else if(@set = 'Flows')
+   begin
+	update MenuPrivilege set RFQ=@type, Quotation=@type, Project=@type where Uid=@uid
+   end
+  end
+ end
+ else
+ begin
+  if(@way = 0)
+  begin
+   declare @qry1 nvarchar(max)
+   set @qry1 = 'Insert into MenuPrivilege(Uid,' + @menu + ') values(' + CAST(@uid as varchar) + ',' + CAST(@type as varchar) + ')'
+   exec sp_executesql @qry1
+  end
+  else
+  begin
+  if(@set = 'Masters')
+  begin
+   Insert into MenuPrivilege(Uid,Country,Department,Users,Client,Vendor,Service) values(@uid,@type,@type,@type,@type,@type,@type)
+  end
+  else if(@set = 'Flows')
+  begin
+   Insert into MenuPrivilege(Uid,RFQ,Quotation,Project) values(@uid,@type,@type,@type)
+  end
+  end
+ end
+end
+GO
+/****** Object:  StoredProcedure [dbo].[UpdateRFQServices]    Script Date: 27-03-2023 01:41:50 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[UpdateRFQServices](@Id int, @RFQId int,@Sid int,@Price float,@Unit float,@Total float,@Remarks nvarchar(2000),
+@IsDeleted bit,@Uid int,@Status int,@Type nvarchar(20),@Complexity int,@StatusDate datetime=null
+,@StatusTime nvarchar(20)=null,@CommitDate datetime=null)
+as
+begin
+if(@IsDeleted = 1)
+begin
+update RFQServices set IsDeleted=1 where Id=@Id
+end
+else if(@Id=0)
+begin
+insert into RFQServices(RFQId,Sid,Price,Unit,Total,Remarks,IsDeleted,Uid,Status,Type,Complexity,CDate,StatusDate,StatusTime,CommitDate)
+values(@RFQId,@Sid,@Price,@Unit,@Total,@Remarks,@IsDeleted,@Uid,@Status,@Type,@Complexity,GETDATE(),@StatusDate,@StatusTime,@CommitDate)
+end
+else
+begin
+update RFQServices set Sid=@Sid,Price=@Price,Unit=@Unit,Total=@Total,Remarks=@Remarks,IsDeleted=@IsDeleted,Status=@Status,Type=@Type,
+Complexity=@Complexity,StatusDate=@StatusDate,StatusTime=@StatusTime,CommitDate=@CommitDate where Id=@Id
+end
+end
+GO

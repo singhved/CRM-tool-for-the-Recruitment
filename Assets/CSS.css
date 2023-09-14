@@ -1,0 +1,251 @@
+﻿.hh:hover {
+    background-color: #8080801f !important;
+}
+
+h6.title {
+    padding: 0 10px;
+    margin: 5px 0 10px 0px;
+    font-weight: 600;
+    color: #777;
+    font-size: 13px;
+}
+
+.btn-default {
+    font-weight: 600;
+}
+
+label {
+    color: #747474;
+}
+
+.dl-horizontal dt {
+    text-align: left !important;
+    margin-bottom: 5px;
+    color: #747474;
+}
+
+
+.bg-danger {
+    color: #f06548;
+    font-size: large;
+    background-color: transparent;
+}
+
+.bg-success {
+    color: #22cf2294;
+    font-size: large;
+    background-color: transparent;
+}
+
+.bg-warning {
+    color: orange;
+    font-size: large;
+    background-color: transparent;
+}
+
+.mr-5 {
+    margin-right: 5px;
+}
+
+.badge-soft-danger {
+    color: #f06548 !important;
+    background-color: rgba(240,101,72,.1) !important;
+}
+
+.badge-soft-success {
+    color: #0ab39c !important;
+    background-color: rgba(10,179,156,.1) !important;
+}
+
+.badge-soft-warning {
+    color: #f7b84b;
+    background-color: rgba(247,184,75,.1);
+}
+
+.float-end {
+    float: right !important;
+}
+
+.back-btn {
+    cursor: pointer !important;
+    color: black !important;
+}
+
+.label-required::after {
+    content: "*";
+    color: red;
+}
+
+.text-success {
+    color: #33c536 !important;
+}
+
+.text-danger {
+    color: #f11010 !important;
+}
+
+.small-card {
+    width: 50% !important;
+    margin-left: 250px !important;
+}
+
+#snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 16px;
+    position: fixed;
+    z-index: 99999 !important;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;
+}
+
+    #snackbar.show {
+        visibility: visible;
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+
+@-webkit-keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
+
+
+
+/*@media screen and (max-width: 767px) {
+    
+}*/
+
+
+
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 23px;
+}
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 19px;
+        width: 19px;
+        left: 2px;
+        bottom: 2.5px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+
+
+.spinner-border {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    vertical-align: text-bottom;
+    border: 0.25em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    -webkit-animation: spinner-border .75s linear infinite;
+    animation: spinner-border .75s linear infinite;
+}
+
+@keyframes spinner-border {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.cursor-pointer {
+    cursor: pointer;
+}

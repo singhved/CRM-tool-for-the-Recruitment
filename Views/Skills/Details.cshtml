@@ -1,0 +1,55 @@
+﻿@model EduCare.Models.SkillView
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="fw-bold mt-3 mb-3"><a href=@Url.Action("Index","Skills") class="back-btn"><i class="fa fa-arrow-left"></i> Skill Details</a></h4>
+
+<div class="box box-primary small-card">
+    <div class="box-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <dl class="dl-horizontal">
+
+                        <dt>Subject</dt>
+                        <dd>
+                            : @Model.Subject
+                        </dd>
+
+                        <dt>Level</dt>
+                        <dd>
+                            : @Model.Level
+                        </dd>
+
+                        <dt>Affiliation</dt>
+                        <dd>
+                            : @Model.Affiliation
+                        </dd>
+
+                        <dt>SkillCode</dt>
+                        <dd>
+                            : @Model.SkillCode
+                        </dd>
+
+                        <dt>Status</dt>
+                        <dd>
+                            : @if (Model.Status ?? false)
+                            {
+                                <span class="label badge-soft-success">Active</span>
+                            }
+                            else
+                            {
+                                <span class="label badge-soft-danger">Inactive</span>
+                            }
+                        </dd>
+
+
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

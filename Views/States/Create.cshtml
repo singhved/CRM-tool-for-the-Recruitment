@@ -1,0 +1,54 @@
+﻿@model EduCare.Models.State
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Data.DataTable country = EduCare.Models.AllProcs.GetCountry();
+}
+
+<h4 class="fw-bold mt-3 mb-3"><a href=@Url.Action("Index","States") class="back-btn"><i class="fa fa-arrow-left"></i> Create State</a></h4>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="box box-primary small-card">
+        <div class="box-body">
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+
+                        @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label label-required" })
+                        <select id="CountryId" name="CountryId" class="form-control">
+                            @for (int i = 0; i < country.Rows.Count; i++)
+                            {
+                                <option value="@country.Rows[i]["Id"].ToString()">@country.Rows[i]["Name"].ToString()</option>
+                            }
+                        </select>
+                        @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label label-required" })
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "State", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+

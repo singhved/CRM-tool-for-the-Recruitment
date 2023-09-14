@@ -1,0 +1,206 @@
+﻿@model EduCare.Models.CandidateView
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Data.DataSet ds = EduCare.Models.AllProcs.GetCandidateDataTables(Model.Id);
+    System.Data.DataTable education = ds.Tables[0];
+    System.Data.DataTable workexperiance = ds.Tables[1];
+
+
+}
+
+<h4 class="fw-bold mt-3 mb-3"><a href=@Url.Action("Index","Candidates") class="back-btn"><i class="fa fa-arrow-left"></i> Candidate Details</a></h4>
+
+<div class="box box-primary">
+    <div class="box-body">
+        <h4>Basic Details</h4>
+        <hr />
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </dt>
+
+                        <dd>
+                            : @Html.DisplayFor(model => model.Name)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.MobileNo)
+                        </dt>
+
+                        <dd>
+                            : @Html.DisplayFor(model => model.MobileNo)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.WhatsAppNo)
+                        </dt>
+
+                        <dd>
+                            : @Html.DisplayFor(model => model.WhatsAppNo)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Email)
+                        </dt>
+
+                        <dd>
+                            : @Html.DisplayFor(model => model.Email)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.DOB)
+                        </dt>
+
+                        <dd>
+                            : @Convert.ToDateTime(Model.DOB).ToString("yyyy-MM-dd")
+                        </dd>
+
+                        <dt>
+                            Resume
+                        </dt>
+                        <dd>
+                            : <img src="~/UploadedFiles/Resumes/@Model.Resume" style="width: 55px!important; height: 50px!important;" />
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Address)
+                        </dt>
+
+                        <dd>
+                            : @Html.DisplayFor(model => model.Address)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.CountryId)
+                        </dt>
+
+                        <dd>
+                            : @Model.Country
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.StateId)
+                        </dt>
+
+                        <dd>
+                            : @Model.State
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.City)
+                        </dt>
+
+                        <dd>
+                            :  @Html.DisplayFor(model => model.City)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Pin)
+                        </dt>
+
+                        <dd>
+                            : @Html.DisplayFor(model => model.Pin)
+                        </dd>
+
+                        <dt>
+                            PrimarySkill Code
+                        </dt>
+
+                        <dd>
+                            : @Model.SkillCode
+                        </dd>
+
+                        <dt>
+                            SecondarySkill Code
+                        </dt>
+
+                        <dd>
+                            : @Model.SkillCode
+                        </dd>
+
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <h4>Education Details</h4>
+        <hr />
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group table-responsive">
+                    <table class="table table-bordered  table-condensed text-center text-nowrap">
+                        <thead style="background-color:#d7d7d7">
+                            <tr>
+                                <th>Degree/Certificate</th>
+                                <th style="width: 15%;">Specialization</th>
+                                <th style="width: 15%;">University</th>
+                                <th>School/College</th>
+                                <th style="width: 15%;">Start Date</th>
+                                <th style="width: 15%;">End Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < education.Rows.Count; i++)
+                            {
+                                <tr>
+                                    <td>@education.Rows[i]["Degree"].ToString()</td>
+                                    <td>@education.Rows[i]["Specialization"].ToString()</td>
+                                    <td>@education.Rows[i]["University"].ToString()</td>
+                                    <td>@education.Rows[i]["SchoolName"].ToString()</td>
+                                    <td>@Convert.ToDateTime(education.Rows[i]["StartDate"].ToString()).ToString("yyyy-MM-dd")</td>
+                                    <td>@Convert.ToDateTime(education.Rows[i]["Enddate"].ToString()).ToString("yyyy-MM-dd")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+
+        <h4>Work Experiance</h4>
+        <hr />
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group table-responsive">
+                    <table class="table table-bordered  table-condensed text-center text-nowrap">
+                        <thead style="background-color:#d7d7d7">
+                            <tr>
+                                <th style="width: 30%;">Organisation</th>
+                                <th style="width: 25%;">Designation</th>
+                                <th style="width: 20%;">Start Date</th>
+                                <th style="width: 20%;">End Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < workexperiance.Rows.Count; i++)
+                            {
+                                <tr>
+                                    <td>@workexperiance.Rows[i]["Organization"].ToString()</td>
+                                    <td>@workexperiance.Rows[i]["Designation"].ToString()</td>
+                                    <td>@Convert.ToDateTime(workexperiance.Rows[i]["Startdate"].ToString()).ToString("yyyy-MM-dd")</td>
+                                    <td>@Convert.ToDateTime(workexperiance.Rows[i]["Enddate"].ToString()).ToString("yyyy-MM-dd")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="float-end">
+            <a type="button" href="@Url.Action("Index","Candidates")" class="btn btn-default"><i class="fa fa-arrow-left"></i> Back</a>
+        </div>
+    </div>
+</div>
+

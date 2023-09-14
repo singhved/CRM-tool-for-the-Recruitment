@@ -1,0 +1,247 @@
+﻿@model EduCare.Models.ClientView
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Data.DataTable getcontactperson = EduCare.Models.AllProcs.GetContactPerson(Model.Id);
+    System.Data.DataTable country = EduCare.Models.AllProcs.GetCountry();
+    System.Data.DataTable state = EduCare.Models.AllProcs.GetState();
+}
+
+<h4 class="fw-bold mt-3 mb-3"><a href=@Url.Action("Index","Clients") class="back-btn"><i class="fa fa-arrow-left"></i> Client Details</a></h4>
+
+<div class="box box-primary">
+    <div class="box-body">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </dt>
+
+                        <dd>
+                            : @Html.DisplayFor(model => model.Name)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Branch)
+                        </dt>
+
+                        <dd>
+                            : @Html.DisplayFor(model => model.Branch)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.ContactNo)
+                        </dt>
+
+                        <dd>
+                            : @Html.DisplayFor(model => model.ContactNo)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Email)
+                        </dt>
+
+                        <dd>
+                            : @Html.DisplayFor(model => model.Email)
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Address)
+                        </dt>
+
+                        <dd>
+                            : @Html.DisplayFor(model => model.Address)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.CountryId)
+                        </dt>
+
+                        <dd>
+                            : @Model.Country
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.StateId)
+                        </dt>
+
+                        <dd>
+                            : @Model.State
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.City)
+                        </dt>
+
+                        <dd>
+                            : @Html.DisplayFor(model => model.City)
+                        </dd>
+
+                        <dt>
+                            Pincode
+                        </dt>
+
+                        <dd>
+                            : @Model.Pincode
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Website)
+                        </dt>
+
+                        <dd>
+                            : @Html.DisplayFor(model => model.Website)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Status)
+                        </dt>
+
+                        <dd>
+                            : @if (Model.Status ?? false)
+                            {
+                                <span class="label badge-soft-success">Active</span>
+                            }
+                            else
+                            {
+                                <span class="label badge-soft-danger">Inactive</span>
+                            }
+                        </dd>
+
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <h4>CONTACT PERSON</h4>
+        <hr />
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group table-responsive">
+                    <table class="table table-bordered  table-condensed text-center text-nowrap">
+                        <thead style="background-color:#d7d7d7">
+                            <tr>
+                                <th>Sno.</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Designation</th>
+                                <th>Email</th>
+                                <th>Contact No.</th>
+                                <th>WhatsApp No.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < getcontactperson.Rows.Count; i++)
+                            {
+                                <tr>
+
+                                    <td>@(i+1)</td>
+                                    <td>@getcontactperson.Rows[i]["Name"].ToString()</td>
+                                    <td>@getcontactperson.Rows[i]["Department"].ToString()</td>
+                                    <td>@getcontactperson.Rows[i]["Designation"].ToString()</td>
+                                    <td>@getcontactperson.Rows[i]["Email"].ToString()</td>
+                                    <td>@getcontactperson.Rows[i]["ContactNo"].ToString()</td>
+                                    <td>@getcontactperson.Rows[i]["WhatsAppNo"].ToString()</td>
+                                </tr>
+
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <h4>BILLING DETAILS</h4>
+        <hr />
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Billing Address
+                        </dt>
+                        <dd>
+                            : @Model.BillingAddress
+                        </dd>
+                        <dt>
+                            Country
+                        </dt>
+                        <dd>
+                            : @Model.BillingCountryName
+                        </dd>
+                        <dt>
+                            State
+                        </dt>
+                        <dd>
+                            : @Model.BillingStateName
+                        </dd>
+                        <dt>
+                            City
+                        </dt>
+                        <dd>
+                            : @Model.BillingCity
+                        </dd>
+                        <dt>
+                            Pin
+                        </dt>
+                        <dd>
+                            : @Model.BillingPincode
+                        </dd>
+
+                    </dl>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Email
+                        </dt>
+                        <dd>
+                            : @Model.BillingEmail
+                        </dd>
+                        <dt>
+                            PhoneNo.
+                        </dt>
+                        <dd>
+                            : @Model.BillingPhoneNo
+                        </dd>
+                        <dt>
+                            GST No.
+                        </dt>
+                        <dd>
+                            : @Model.GSTNo
+                        </dd>
+                        <dt>
+                            Payment Terms
+                        </dt>
+                        <dd>
+                            : @Model.PaymentTerms
+                        </dd>
+                        <dt>
+                            Terms & Conditions.
+                        </dt>
+                        <dd>
+                            : @Model.TAndC
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="float-end">
+            <a type="button" href="@Url.Action("Index","Clients")" class="btn btn-default"><i class="fa fa-arrow-left"></i> Back</a>
+        </div>
+    </div>
+</div>
+
+

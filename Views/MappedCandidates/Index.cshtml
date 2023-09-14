@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Data.DataTable mappcandidateview = EduCare.Models.AllProcs.GetTableData("MappedCandidatesView");
+}
+
+<h3 class="fw-bold" style="margin-top:0;">Mapped Candidates</h3>
+
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
+<div class="box box-primary">
+    <div class="box-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group table-responsive">
+                    <table class="table table-condensed table-striped text-center myDataTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    S.No.
+                                </th>
+                                <th>
+                                    Request No.
+                                </th>
+                                <th>
+                                    SkillCode
+                                </th>
+                                <th>
+                                    Candidate
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < mappcandidateview.Rows.Count; i++)
+                            {
+                                int id = Convert.ToInt32(mappcandidateview.Rows[i]["Id"].ToString());
+                                <tr>
+                                    <td>@(i+1)</td>
+                                    <td>@(i+1000)RN</td>
+                                    <td>@mappcandidateview.Rows[i]["SkillCode"].ToString()</td>
+                                    <td>@mappcandidateview.Rows[i]["Candidate"].ToString()</td>
+                                    <td>
+                                        <a href="@Url.Action("Details", "Users", new { id = id})"><i class="fa fa-eye bg-success"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,51 @@
+﻿@model EduCare.Models.CandidateStatus
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="fw-bold mt-3 mb-3"><a href=@Url.Action("Index","CandidateStatus") class="back-btn"><i class="fa fa-arrow-left"></i> Delete Request </a></h4>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="box box-primary small-card">
+        <div class="box-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </dt>
+
+                            <dd>
+                                : @Html.DisplayFor(model => model.Name)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Category)
+                            </dt>
+
+                            <dd>
+                                : @Html.DisplayFor(model => model.Category)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.status)
+                            </dt>
+
+                            <dd>
+                                : @Html.DisplayFor(model => model.status)
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-danger"/>
+            </div>
+        </div>
+    </div>
+}

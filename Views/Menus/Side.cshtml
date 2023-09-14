@@ -1,0 +1,60 @@
+﻿
+<aside class="main-sidebar">
+
+    <section class="sidebar">
+
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img src="~/Assets/dist/img/LOGO.jpg" class="img-circle" alt="User Image" style="background-color:white;">
+            </div>
+            <div class="pull-left info">
+                <p>EDUCARE</p>
+                @*<a href="#"><i class="fa fa-circle text-success"></i> Online</a>*@
+            </div>
+        </div>
+
+
+
+
+        <ul class="sidebar-menu" data-widget="tree">
+
+            <li class="header">MAIN NAVIGATION</li>
+            <li><a href="@Url.Action("Index","Home")"><i class="fa fa-dashboard"></i><span>Home</span></a></li>
+
+            <li class="header">MASTERS</li>
+            <li><a href="@Url.Action("Index","Departments")"><i class="fa fa-user"></i><span>Departments</span></a></li>
+            <li><a href="@Url.Action("Index","Designations")"><i class="fa fa-building"></i><span>Designations</span></a></li>
+            <li><a href="@Url.Action("Index","Subjects")"><i class="fa fa-book"></i><span>Subjects</span></a></li>
+            <li><a href="@Url.Action("Index","Levels")"><i class="fa fa-level-up"></i><span>Levels</span></a></li>
+            <li><a href="@Url.Action("Index","Affiliations")"><i class="fa fa-id-card"></i><span>Affiliations</span></a></li>
+            <li><a href="@Url.Action("Index","Countries")"><i class="fa fa-file-word-o"></i><span>Countries</span></a></li>
+            <li><a href="@Url.Action("Index","States")"><i class="fa fa-area-chart"></i><span>States</span></a></li>
+            <li><a href="@Url.Action("Index","Universities")"><i class="fa fa-building-o"></i><span>Universities</span></a></li>
+            <li><a href="@Url.Action("Index","Users")"><i class="fa fa-user-circle-o"></i><span>Users</span></a></li>
+            <li><a href="@Url.Action("Index","Clients")"><i class="fa fa-user"></i><span>Clients</span></a></li>
+            <li><a href="@Url.Action("Index","PaymentTerms")"><i class="fa fa-money"></i><span>PaymentTerms</span></a></li>
+            <li><a href="@Url.Action("Index","Skills")"><i class="fa fa-book"></i><span>Skills</span></a></li>
+            <li><a href="@Url.Action("Index","Degrees")"><i class="fa fa-book"></i><span>Degrees</span></a></li>
+            <li><a href="@Url.Action("Index","CandidateStatus")"><i class="fa fa-bell"></i><span>Candidate Status</span></a></li>
+            <li><a href="@Url.Action("Index","RequestStatus")"><i class="fa fa-bell-slash"></i><span>Request Status</span></a></li>
+            <li><a href="@Url.Action("Index","Candidates")"><i class="fa fa-user-plus"></i><span>Candidates</span></a></li>
+
+            <li class="header">REQUEST FORMS</li>
+            <li><a href="@Url.Action("Index","Requests")"><i class="fa fa-clipboard"></i><span>All Requests</span></a></li>
+
+            @*<li><a href="#"><i class="fa fa-arrow-left"></i><span>New</span></a></li>
+        <li><a href="#"><i class="fa fa-arrow-left"></i><span>Approved</span></a></li>
+        <li><a href="#"><i class="fa fa-arrow-left"></i><span>Rejected</span></a></li>*@
+
+
+            <li class="header">CANDIDATE MAPPING</li>
+            <li><a href="@Url.Action("Index","MappedCandidates")"><i class="fa fa-clipboard"></i><span>All_(Rejected+Approved)</span></a></li>
+            <li><a href="#"><i class="fa fa-clipboard"></i><span>Rejected</span></a></li>
+            <li><a href="#"><i class="fa fa-clipboard"></i><span>Approved</span></a></li>
+            @*<li><a href="#"><i class="fa fa-clipboard"></i><span>Approved</span></a></li>
+        <li><a href="#"><i class="fa fa-clipboar d"></i><span>Rejected</span></a></li>*@
+
+        </ul>
+    </section>
+
+</aside>

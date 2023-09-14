@@ -1,0 +1,59 @@
+﻿@model EduCare.Models.Subject
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="fw-bold mt-3 mb-3"><a href=@Url.Action("Index","Subjects") class="back-btn"><i class="fa fa-arrow-left"></i> Edit Subject</a></h4>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    <div class="box box-primary small-card">
+        <div class="box-body">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label label-required" })
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SubjectCode, htmlAttributes: new { @class = "control-label label-required" })
+                        @Html.EditorFor(model => model.SubjectCode, new { htmlAttributes = new { @class = "form-control",@required="required",@maxlength="3",@placeholder="Subject Code" , @oninput = "this.value = this.value.toUpperCase()" } })
+                        @Html.ValidationMessageFor(model => model.SubjectCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
+                        <select class="form-control" id="Status" name="Status">
+                            <option value="True">Active</option>
+                            <option value="False">InActive</option>
+                        </select>
+                        <script>$('#Status').val('@Model.Status')</script>
+                        @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+

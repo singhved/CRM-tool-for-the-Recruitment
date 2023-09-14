@@ -1,0 +1,140 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Data.DataTable dt = EduCare.Models.AllProcs.GetTableData("UsersView");
+    //System.Data.DataTable dept = EduCare.Models.AllProcs.GetDepartments();
+    //System.Data.DataTable designation = EduCare.Models.AllProcs.GetDesignations();
+    var s = TempData["Msg"];
+    if (s == null)
+    {
+        s = 0;
+    }
+}
+<div class="msg-alert">
+    @if (s.ToString() == "2")
+    {
+        <div class="alert alert-warning alert-dismissible" style="background-color: #e5bb79!important">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true" style="color: white; opacity: 1; font-size: 25px;">×</button>
+            Data Updated!
+        </div>
+    }
+    else if (s.ToString() == "3")
+    {
+        <div class="alert alert-danger alert-dismissible" style="background-color: #cd6f64!important;">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true" style="color: white; opacity: 1; font-size: 25px;">×</button>
+            Data Deleted!
+        </div>
+    }
+    else if (s.ToString() == "1")
+    {
+        <div class="alert alert-success alert-dismissible" style="background-color: #4da97f!important">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true" style="color: white; opacity: 1; font-size: 25px;">×</button>
+            Data Saved!
+        </div>
+    }
+</div>
+<h3 class="fw-bold" style="margin-top:0;">Users</h3>
+
+<div class="box box-primary">
+    <div class="box-body">
+
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <a type="button" href="@Url.Action("Create","Users")" class="btn btn-default">Add User</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group table-responsive">
+                    <table class="table table-bordered table-condensed table-striped text-center text-nowrap myDataTable">
+                        <thead>
+                            <tr>
+                                <th>S.No.</th>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Emp Code
+                                </th>
+                                <th>
+                                    Email
+                                </th>
+                                <th>Contact</th>
+                                <th>WhatsApp</th>
+                                <th>
+                                    Department
+                                </th>
+                                <th>
+                                    Designation
+                                </th>
+                                <th>
+                                    Type
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < dt.Rows.Count; i++)
+                            {
+                                int id = Convert.ToInt32(dt.Rows[i]["Id"].ToString());
+                            <tr>
+                                <td>@(i+1)</td>
+                                <td>
+                                    @dt.Rows[i]["Name"].ToString()
+                                </td>
+                                <td>
+                                    @dt.Rows[i]["EmpCode"].ToString()
+                                </td>
+                                <td>
+                                    @dt.Rows[i]["Email"].ToString()
+                                </td>
+                                <td>
+                                    @dt.Rows[i]["ContactNo"].ToString()
+                                </td>
+                                <td>
+                                    @dt.Rows[i]["WhatsappNo"].ToString()
+                                </td>
+
+                                <td>
+                                    @dt.Rows[i]["Department"].ToString()
+                                </td>
+                                <td>
+                                    @dt.Rows[i]["Designation"].ToString()
+                                </td>
+                                <td>
+                                    @dt.Rows[i]["TypeName"].ToString()
+                                </td>
+                                <td>
+                                    @if (Convert.ToBoolean(dt.Rows[i]["Status"].ToString()))
+                                    {
+                                        <span class="label badge-soft-success">Active</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="label badge-soft-danger">InActive</span>
+                                    }
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Edit", "Users", new { id = id})"><i class="fa fa-edit bg-warning"></i></a>
+                                    <a href="@Url.Action("Details", "Users", new { id = id})"><i class="fa fa-eye bg-success"></i></a>
+                                    <a href="@Url.Action("Delete", "Users", new { id = id})"><i class="fa fa-trash bg-danger"></i></a>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    setTimeout(function () { $('.msg-alert').remove() }, 2000);
+</script>
